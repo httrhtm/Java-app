@@ -29,13 +29,13 @@ public class ConnectionDao {
 	public void setConnection() throws Exception {
 
 		try {
-			String url = "jdbc:mysql://localhost:3306/java_db?characterEncoding=UTF-8＆serverTimezone=JST";
+			String url = "jdbc:mysql://localhost:3306/java_db?characterEncoding=UTF-8＆serverTimezone=JST&useSSL=false";
 
 			//Class.forName()メソッドを利用し、そのクラス内でJDBCドライバを読み込み利用を可能な状態にしている
 			Class.forName(DRIVER_NAME).newInstance();
 
 			//DriverManager.getConnection()メソッドを利用してデータベースに接続する処理を行なっている。
-			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/java_db?characterEncoding=UTF-8&serverTimezone=JST&useSSL=false", "root", "hacchan82");
+			con = DriverManager.getConnection(url, "root", "hacchan82");
 
 			//接続成功メッセージとコネクション情報の表示
 			//生成した接続をSystem.out.println()メソッドで表示
