@@ -29,7 +29,7 @@ public class ConnectionDao {
 	public void setConnection() throws Exception {
 
 		try {
-			String url = "jdbc:mysql://localhost:3306/java_db?characterEncoding=UTF-8＆serverTimezone=JST&useSSL=false";
+			String url = "jdbc:mysql://localhost:3306/java_db?characterEncoding=UTF-8&serverTimezone=JST&useSSL=false";
 
 			//Class.forName()メソッドを利用し、そのクラス内でJDBCドライバを読み込み利用を可能な状態にしている
 			Class.forName(DRIVER_NAME).newInstance();
