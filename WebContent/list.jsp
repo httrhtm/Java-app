@@ -7,7 +7,7 @@
 <title>list</title>
 </head>
 <body>
-	<form action="Login.action" method="post">
+	<form action="List.action" method="post">
 	<div class ="nav">
 		<ul>
 			<li><a href="/">top</a>
