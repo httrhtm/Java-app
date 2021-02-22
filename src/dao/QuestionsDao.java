@@ -7,39 +7,35 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.UsersBean;
+import bean.QuestionsBean;
 
-public class UsersDao extends ConnectionDao {
-	/**
-	 * コンストラクタ
-	 */
-	public UsersDao() throws Exception {
+public class QuestionsDao extends ConnectionDao {
+
+	public QuestionsDao() throws Exception {
 		setConnection();//例外クラス
-		//setConnectionメソッド内で例外が発生すると、その呼び出し元（setConnection）のcatchに処理が移る
+//		setConnectionメソッド内で例外が発生すると、その呼び出し元（setConnection）のcatchに処理が移る
 	}
-	/**
-	 * users テーブルを全件取得
-	 */
-	public List<UsersBean> findAll() throws Exception {
+
+	public List<QuestionsBean> findAll() throws Exception {
 		if (con == null) {
 			setConnection();
 		}
 		PreparedStatement st = null; //事前に準備したSQL文がない
 		ResultSet rs = null; //データ表がない
+
 		try {
-			// 削除フラグがたってないレコードを全件
-			String sql = "SELECT id, name, password FROM users WHERE deleteflag = 0";
+			//レコードを全件
+			String sql = "SELECT id, question FROM questions";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/
 			rs = st.executeQuery();
 			/** select文の結果をArrayListに格納 **/
-			List<UsersBean> list = new ArrayList<UsersBean>();
+			List<QuestionsBean> list = new ArrayList<QuestionsBean>();
 			while (rs.next()) { //繰り返し処理
 				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				String password = rs.getString("password");
-				UsersBean bean = new UsersBean(id, name, password);
+				String question = rs.getString("question");
+				QuestionsBean bean = new QuestionsBean(id, question);
 				list.add(bean);
 			}
 			return list;
@@ -50,10 +46,10 @@ public class UsersDao extends ConnectionDao {
 		} finally { //ファイルのクローズ処理。例外の有無関係なく実行される。
 			try {
 				if (rs != null) {
-					rs.close();
+						rs.close();
 				}
 				if (st != null) {
-					st.close();
+						st.close();
 				}
 				close();
 			} catch (Exception e) {
@@ -66,27 +62,25 @@ public class UsersDao extends ConnectionDao {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	public UsersBean find(int pid) throws Exception {
+	public QuestionsBean find(int pid) throws Exception {
 		if (con == null) {
 			setConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, name, password FROM users WHERE id = ?";
+			String sql = "SELECT id, question FROM questions WHERE id = ?";
 			/** PreparedStatement オブジェクトの取得**/
-//			PreparedStatement#executeQueryメソッドでSELECT命令を実行
+			//PreparedStatement#executeQueryメソッドでSELECT命令を実行
 			st = con.prepareStatement(sql);
 			st.setInt(1, pid);
 			rs = st.executeQuery();
-			UsersBean bean = new UsersBean();
+			QuestionsBean bean = new QuestionsBean();
 			while (rs.next()) {
 				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				String password = rs.getString("password");
+				String question = rs.getString("question");
 				bean.setId(id);
-				bean.setName(name);
-				bean.setPassword(password);
+				bean.setQuestion(question);
 			}
 			return bean;
 		} catch (Exception e) {
@@ -107,66 +101,26 @@ public class UsersDao extends ConnectionDao {
 			}
 		}
 	}
+
 	/**
 	 * レコードの新規作成
 	 */
-	public void create(UsersBean ub) throws Exception {
+	public void create(QuestionsBean qb) throws Exception {
 		if (con == null) {
 			setConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "INSERT INTO users (name, password, created_at, updated_at) values (?,?,?,?)";
+			String sql = "INSERT INTO questions (question, created_at, updated_at) values (?,?,?)";
 			// 現在時刻を取得
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			String strTimestamp = sdf.format(timestamp);
 			st = con.prepareStatement(sql);
-			st.setString(1, ub.getName());
-			st.setString(2, ub.getPassword());
-			st.setString(3, strTimestamp);
-			st.setString(4, strTimestamp);
-			st.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("レコードの操作に失敗しました。");
-		} finally {
-			try {
-				// リソースの開放
-				if (rs != null) {
-					rs.close();
-				}
-				if (st != null) {
-					st.close();
-				}
-				close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new Exception("リソースの開放に失敗しました");
-			}
-		}
-	}
-	 /**
-	  * レコードの論理削除
-	  */
-	 public void delete(int id) throws Exception{
-		if (con == null) {
-			setConnection();
-		}
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		try {
-			String sql = "UPDATE users SET deleteflag = ?, deleted_at = ? WHERE id = ?";
-			// 現在時刻を取得
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
-			st = con.prepareStatement(sql);
-			// 削除フラグを立てる
-			st.setInt(1, 1);
+			st.setString(1, qb.getQuestion());
 			st.setString(2, strTimestamp);
-			st.setInt(3, id);
+			st.setString(3, strTimestamp);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,11 +129,11 @@ public class UsersDao extends ConnectionDao {
 			try {
 				// リソースの開放
 				if (rs != null) {
-					rs.close();
-				}
+									rs.close();
+								}
 				if (st != null) {
-					st.close();
-				}
+									st.close();
+								}
 				close();
 			} catch (Exception e) {
 				e.printStackTrace();
