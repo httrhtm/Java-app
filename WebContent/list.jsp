@@ -7,11 +7,11 @@
 <title>list</title>
 </head>
 <body>
-	<form action="List.action" method="post">
+	<form action="List" method="post">
 	<div class ="nav">
 		<ul>
-			<li><a href="/">top</a>
-			<li><a href="/">logout</a>
+			<li><a href="top">top</a>
+			<li><a href="logout">logout</a>s
 
 		</ul>
 	</div>
