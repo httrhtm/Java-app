@@ -13,22 +13,24 @@
 			<li><a href="/">logout</a>
 		</ul>
 	</div>
-	<div class="main">
-		<div class="inputQuestion">
-			<label for="question">問題：</label>
-			<input type="text" name="question" id="question">
+	<form action="Register">
+		<div class="main">
+			<div class="inputQuestion">
+				<label for="question">問題：</label>
+				<input type="text" name="question" id="question">
+			</div>
+			<div class="input-answer">
+				<input type="text" name="answer" id="answer">
+				<a href="/">削除</a>
+			</div>
+			<div class="bottomNav">
+				<ul>
+					<li><a href="list.jsp">戻る</a>
+					<li><a href="registerConfirm.jsp">確認</a>
+					<li><a href="/">追加</a>
+				</ul>
+			</div>
 		</div>
-		<div class="input-answer">
-			<input type="text" name="answer" id="answer">
-			<a href="/">削除</a>
-		</div>
-		<div class="bottomNav">
-			<ul>
-				<li><a href="list.jsp">戻る</a>
-				<li><a href="registerConfirm.jsp">確認</a>
-				<li><a href="/">追加</a>
-			</ul>
-		</div>
-	</div>
+	</form>
 </body>
 </html>
