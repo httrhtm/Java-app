@@ -35,7 +35,7 @@ public class QuestionsBean implements Serializable {
 		this.question = question;
 	}
 
-	public Timestamp getCreated_at() {
+	public Timestamp getCreatedAt() {
 		return created_at;
 	}
 
