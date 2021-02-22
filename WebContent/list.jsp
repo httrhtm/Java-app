@@ -16,7 +16,7 @@
 		</ul>
 	</div>
 	<div class="registerBtn">
-		<a href="/">新規登録</a>
+		<a href="register">新規登録</a>
 	</div>
 	<div class="main">
 		<div class="questionList">
