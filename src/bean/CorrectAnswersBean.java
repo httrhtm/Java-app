@@ -8,13 +8,14 @@ public class CorrectAnswersBean implements Serializable  {
 
 	private int id;
 	private int question_id;
-	private int point;
+	private String answer;
 	private Timestamp created_at;
+	private Timestamp updated_at;
 
-	public CorrectAnswersBean(int id, int question_id, int point) {
+	public CorrectAnswersBean(int id, int question_id, String answer) {
 		this.id = id;
 		this.question_id = question_id;
-		this.point = point;
+		this.answer = answer;
 
 	}
 
@@ -38,12 +39,12 @@ public class CorrectAnswersBean implements Serializable  {
 		this.question_id = question_id;
 	}
 
-	public int getPoint() {
-		return point;
+	public String getAnswer() {
+		return answer;
 	}
 
-	public void setPoint(int point) {
-		this.point = point;
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
 
 	public Timestamp getCreatedAt() {
@@ -52,6 +53,14 @@ public class CorrectAnswersBean implements Serializable  {
 
 	public void setCreatedAt(Timestamp created_at) {
 		this.created_at = created_at;
+	}
+
+	public Timestamp getUpdatedAt() {
+		return updated_at;
+	}
+
+	public void setUpdatedAt(Timestamp updated_at) {
+		this.updated_at = updated_at;
 	}
 
 
