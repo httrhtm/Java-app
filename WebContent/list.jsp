@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="bean.*,java.util.*"%>
+<%
+List<QuestionsBean> qlist=(List<QuestionsBean>)request.getAttribute("qlist");
+List<CorrectAnswersBean> calist=(List<CorrectAnswersBean>)request.getAttribute("calist");
+String error = (String)request.getAttribute("error");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,76 +13,41 @@
 <title>list</title>
 </head>
 <body>
-	<form action="List.action" method="post">
 	<div class ="nav">
 		<ul>
-			<li><a href="/">top</a>
-			<li><a href="/">logout</a>
-
+			<li><a href="top.jsp">top</a>
+			<li><a href="logout">logout</a>
+			<br>
 		</ul>
 	</div>
 	<div class="registerBtn">
-		<a href="/">新規登録</a>
+		<a href="register.jsp">新規登録</a>
 	</div>
-	<div class="main">
-		<div class="questionList">
-			<div class="question">
-				<p>1</p>>
-				<label for="question">問題：</label>
-				<input type="text" name="question" id="question">
-				<ul>
-					<li><a href="/">編集</a>
-					<li><a href="/">削除</a>
-				</ul>
-			</div>
-			<div class="answer">
-				<label for="question">答え１：</label>
-				<input type="text" name="question" id="question">
-			</div>
-			<div class="answer">
-				<label for="question">答え２：</label>
-				<input type="text" name="question" id="question">
-			</div>
+	<%
+	if(qlist != null){
+		for(int i=0;i<qlist.size();i++){
+    %>
+	    <div class="inputQuestion">
+			<label for="question">問題：</label>
+			<a><%= qlist.get(i).getId() %></a>
+			<a><%= qlist.get(i).getQuestion() %></a>
 		</div>
-		<div class="questionList">
-			<div class="question">
-				<p>1</p>>
-				<label for="question">問題：</label>
-				<input type="text" name="question" id="question">
-					<ul>
-						<li><a href="/">編集</a>
-						<li><a href="/">削除</a>
-					</ul>
-			</div>
-			<div class="answer">
-				<label for="question">答え１：</label>
-				<input type="text" name="question" id="question">
-			</div>
-			<div class="answer">
-				<label for="question">答え２：</label>
-				<input type="text" name="question" id="question">
-			</div>
+		<% for(int j=0;j<calist.size();j++){ %>
+		<!-- questions.id = question_id -->
+		<%
+		if(i == j){
+		%>
+		<div class="input-answer">
+			<label for="answer">答え：</label>
+			<a><%=calist.get(j).getAnswer() %></a>
 		</div>
-		<div class="questionList">
-			<div class="question">
-				<p>1</p>>
-				<label for="question">問題：</label>
-				<input type="text" name="question" id="question">
-					<ul>
-						<li><a href="/">編集</a>
-						<li><a href="/">削除</a>
-					</ul>
-			</div>
-			<div class="answer">
-				<label for="question">答え１：</label>
-				<input type="text" name="question" id="question">
-			</div>
-			<div class="answer">
-				<label for="question">答え２：</label>
-				<input type="text" name="question" id="question">
-			</div>
-		</div>
-	</div>
-</form>
+		<% } %>
+	<%
+		}
+		}
+	%>
+	<%
+	}
+	%>
 </body>
 </html>
