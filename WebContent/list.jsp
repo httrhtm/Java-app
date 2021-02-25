@@ -29,8 +29,8 @@ String error = (String)request.getAttribute("error");
     %>
 	    <div class="inputQuestion">
 			<label for="question">問題：</label>
-			<p><%= qlist.get(i).getId() %></p>
-			<p><%= qlist.get(i).getQuestion() %></p>
+			<a><%= qlist.get(i).getId() %></a>
+			<a><%= qlist.get(i).getQuestion() %></a>
 		</div>
 		<% for(int j=0;j<calist.size();j++){ %>
 		<!-- questions.id = question_id -->
@@ -39,7 +39,7 @@ String error = (String)request.getAttribute("error");
 		%>
 		<div class="input-answer">
 			<label for="answer">答え：</label>
-			<p><%=calist.get(j).getAnswer() %></p>
+			<a><%=calist.get(j).getAnswer() %></a>
 		</div>
 		<% } %>
 	<%
