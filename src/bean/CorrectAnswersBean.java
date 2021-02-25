@@ -7,14 +7,14 @@ public class CorrectAnswersBean implements Serializable  {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private int questions_id;
+	private int question_id;
 	private String answer;
 	private Timestamp created_at;
 	private Timestamp updated_at;
 
 	public CorrectAnswersBean(int id, int question_id, String answer) {
 		this.id = id;
-		this.questions_id = question_id;
+		this.question_id = question_id;
 		this.answer = answer;
 
 	}
@@ -32,11 +32,11 @@ public class CorrectAnswersBean implements Serializable  {
 	}
 
 	public int getQuestionId() {
-		return questions_id;
+		return question_id;
 	}
 
 	public void setQuestionId(int question_id) {
-		this.questions_id = question_id;
+		this.question_id = question_id;
 	}
 
 	public String getAnswer() {
