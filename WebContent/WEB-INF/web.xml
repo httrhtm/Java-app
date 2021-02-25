@@ -23,5 +23,17 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 		<servlet-name>RegisterServlet</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ListServlet</servlet-name>
+		<servlet-class>servlet.ListServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ListServlet</servlet-name>
+		<url-pattern>/list</url-pattern>
+	</servlet-mapping>
+	
+	
 
 </web-app>

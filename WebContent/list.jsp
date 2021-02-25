@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="bean.*,java.util.*"%>
+<%
+List<QuestionsBean> qlist=(List<QuestionsBean>)request.getAttribute("qlist");
+List<CorrectAnswersBean> calist=(List<CorrectAnswersBean>)request.getAttribute("calist");
+String error = (String)request.getAttribute("error");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,34 +17,37 @@
 		<ul>
 			<li><a href="top.jsp">top</a>
 			<li><a href="logout">logout</a>
-
+			<br>
 		</ul>
 	</div>
 	<div class="registerBtn">
 		<a href="register.jsp">新規登録</a>
 	</div>
-	<form action="List" method="post">
-	<div class="main">
-		<div class="questionList">
-			<div class="question">
-				<p>1</p>
-				<label for="question">問題：</label>
-				<input type="text" name="question" id="question">
-				<ul>
-					<li><a href="edit.jsp">編集</a>
-					<li><a href="deleteConfirm.jsp">削除</a>
-				</ul>
-			</div>
-			<div class="answer">
-				<label for="answer">答え１：</label>
-				<input type="text" name="answer" id="answer">
-			</div>
-			<div class="answer">
-				<label for="answer">答え２：</label>
-				<input type="text" name="answer" id="answer">
-			</div>
+	<%
+	if(qlist != null){
+		for(int i=0;i<qlist.size();i++){
+    %>
+	    <div class="inputQuestion">
+			<label for="question">問題：</label>
+			<p><%= qlist.get(i).getId() %></p>
+			<p><%= qlist.get(i).getQuestion() %></p>
 		</div>
-	</div>
-</form>
+		<% for(int j=0;j<calist.size();j++){ %>
+		<!-- questions.id = question_id -->
+		<%
+		if(i == j){
+		%>
+		<div class="input-answer">
+			<label for="answer">答え：</label>
+			<p><%=calist.get(j).getAnswer() %></p>
+		</div>
+		<% } %>
+	<%
+		}
+		}
+	%>
+	<%
+	}
+	%>
 </body>
 </html>
