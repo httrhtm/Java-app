@@ -13,7 +13,7 @@
 	</div>
 	<div class="main">
 		<ul>
-			<li><a href="list.jsp">問題と答えを確認・登録する　＞</a>
+			<li><a href="ListServlet">問題と答えを確認・登録する　＞</a>
 			<li><a href="test.jsp">テストをする　＞</a>
 			<li><a href="history.jsp">過去の採点結果をみる　＞</a>
 		</ul>

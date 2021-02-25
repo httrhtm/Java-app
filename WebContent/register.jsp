@@ -17,7 +17,7 @@
 		<div class="main">
 			<div class="inputQuestion">
 				<label for="question">問題：</label>
-				<input type="text" name="question" id="question">
+				<textarea name="question" id="question"></textarea>
 			</div>
 			<div class="input-answer">
 				<input type="text" name="answer" id="answer">
@@ -25,7 +25,7 @@
 			</div>
 			<div class="bottomNav">
 				<ul>
-					<li><a href="list.jsp">戻る</a>
+					<li><a href="ListServlet">戻る</a>
 					<li><input type="submit" value="確認">
 					<li><a href="/">追加</a>
 				</ul>

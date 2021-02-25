@@ -14,6 +14,8 @@ public class QuestionsDao extends ConnectionDao {
 		//		setConnectionメソッド内で例外が発生すると、その呼び出し元（setConnection）のcatchに処理が移る
 	}
 
+	//データベースから全てのアカウント情報の検索を行うメソッド
+	//戻り値としてArrayList<AccountInfo>型の変数を利用
 	public List<QuestionsBean> findAll() throws Exception {
 		if (con == null) {
 			setConnection();
@@ -29,7 +31,8 @@ public class QuestionsDao extends ConnectionDao {
 			/** SQL 実行 **/
 			rs = st.executeQuery();
 			/** select文の結果をArrayListに格納 **/
-			List<QuestionsBean> list = new ArrayList<QuestionsBean>();
+			 //return用オブジェクトの生成
+			ArrayList<QuestionsBean> list = new ArrayList<QuestionsBean>();
 			while (rs.next()) { //繰り返し処理
 				int id = rs.getInt("id");
 				String question = rs.getString("question");

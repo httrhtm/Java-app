@@ -59,7 +59,7 @@ public class RegisterConfirmServlet extends HttpServlet {
 			request.setAttribute("question", question);
 			request.setAttribute("answer", answer);
 
-			RequestDispatcher rd = request.getRequestDispatcher("registerConfirm.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("RegisterServlet");
 
 			rd.forward(request,response);
 		}

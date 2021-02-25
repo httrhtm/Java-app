@@ -3,7 +3,6 @@ package dao;
 import java.sql.PreparedStatement; //SQL文を事前に準備しておくことでJDBCを高速化
 import java.sql.ResultSet; //データベースの結果セットを表すデータの表
 import java.util.ArrayList;
-import java.util.List;
 
 import bean.CorrectAnswersBean;
 
@@ -13,7 +12,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 //		setConnectionメソッド内で例外が発生すると、その呼び出し元（setConnection）のcatchに処理が移る
 	}
 
-	public List<CorrectAnswersBean> findAll() throws Exception {
+	public ArrayList<CorrectAnswersBean> findAll() throws Exception {
 		if (con == null) {
 			setConnection();
 		}
@@ -28,7 +27,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 			/** SQL 実行 **/
 			rs = st.executeQuery();
 			/** select文の結果をArrayListに格納 **/
-			List<CorrectAnswersBean> list = new ArrayList<CorrectAnswersBean>();
+			ArrayList<CorrectAnswersBean> list = new ArrayList<CorrectAnswersBean>();
 			while (rs.next()) { //繰り返し処理
 				int id = rs.getInt("id");
 				int questionId = rs.getInt("question_id");

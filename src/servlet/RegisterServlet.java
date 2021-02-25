@@ -72,8 +72,8 @@ public class RegisterServlet extends HttpServlet {
 			//QuestionsDAOをInsert
 			qdao.create(qb);
 
-			//QuestionsDAOから一番大きいidの値を取得して+1
-			int max_id = qdao.getMaxQuestionId() + 1;
+			//QuestionsDAOから一番大きいidの値を取得
+			int max_id = qdao.getMaxQuestionId();
 
 			//caにquestuons_id をセット
 			cab.setQuestionId(max_id);
@@ -93,13 +93,13 @@ public class RegisterServlet extends HttpServlet {
 				request.setAttribute("list", list);
 
 				//画面を/listに遷移する
-				RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("ListServlet");
 				rd.forward(request, response);
 			}
 				//例外をキャッチ
-			} catch (Exception e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+		} catch (Exception e) {
+		// TODO 自動生成された catch ブロック
+		e.printStackTrace();
 		}
 	}
 
