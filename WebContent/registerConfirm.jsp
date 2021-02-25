@@ -13,20 +13,27 @@
 			<li><a href="/">logout</a>
 		</ul>
 	</div>
-	<div class="main">
-		<div class="inputQuestion">
-			<label for="question">問題：</label>
-			<input type="text" name="question" id="question">
+	<form action="RegisterServlet" method="post">
+		<div class="main">
+			<div class="inputQuestion">
+				<label for="question">問題：</label>
+				<textarea readonly name="question"><%=request.getAttribute("question") %></textarea>
+			</div>
+			<% String[] answer = (String[])request.getAttribute("answer");
+			for(int i = 0; i < answer.length; i++) {
+			%>
+			<div class="input-answer">
+			<label for="answer">答え：</label>
+			<input type="text" name="answer" readonly value="<%=answer[i]%>">
+			</div>
+			<% } %>
+			<div class="bottomNav">
+				<ul>
+					<li><a href="register.jsp">戻る</a>
+					<li><input type="submit" value="登録">
+				</ul>
+			</div>
 		</div>
-		<div class="input-answer">
-			<input type="text" name="answer" id="answer">
-		</div>
-		<div class="bottomNav">
-			<ul>
-				<li><a href="list.jsp">戻る</a>
-				<li><a href="/">登録</a>
-			</ul>
-		</div>
-	</div>
+	</form>
 </body>
 </html>

@@ -9,19 +9,19 @@
 <body>
 	<div class ="nav">
 		<ul>
-			<li><a href="top">top</a>
-			<li><a href="logout">logout</a>s
+			<li><a href="top.jsp">top</a>
+			<li><a href="logout">logout</a>
 
 		</ul>
 	</div>
 	<div class="registerBtn">
-		<a href="register">新規登録</a>
+		<a href="register.jsp">新規登録</a>
 	</div>
 	<form action="List" method="post">
 	<div class="main">
 		<div class="questionList">
 			<div class="question">
-				<p>1</p>>
+				<p>1</p>
 				<label for="question">問題：</label>
 				<input type="text" name="question" id="question">
 				<ul>

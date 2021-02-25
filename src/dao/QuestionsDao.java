@@ -13,7 +13,7 @@ public class QuestionsDao extends ConnectionDao {
 
 	public QuestionsDao() throws Exception {
 		setConnection();//例外クラス
-//		setConnectionメソッド内で例外が発生すると、その呼び出し元（setConnection）のcatchに処理が移る
+		//		setConnectionメソッド内で例外が発生すると、その呼び出し元（setConnection）のcatchに処理が移る
 	}
 
 	public List<QuestionsBean> findAll() throws Exception {
@@ -39,17 +39,17 @@ public class QuestionsDao extends ConnectionDao {
 				list.add(bean);
 			}
 			return list;
-		//例外発生時の処理
+			//例外発生時の処理
 		} catch (Exception e) { //例外をキャッチ
 			e.printStackTrace();
 			throw new Exception("レコードの取得に失敗しました");
 		} finally { //ファイルのクローズ処理。例外の有無関係なく実行される。
 			try {
 				if (rs != null) {
-						rs.close();
+					rs.close();
 				}
 				if (st != null) {
-						st.close();
+					st.close();
 				}
 				close();
 			} catch (Exception e) {
@@ -59,6 +59,7 @@ public class QuestionsDao extends ConnectionDao {
 			}
 		}
 	}
+
 	/**
 	 * 指定IDのレコードを取得する
 	 */
@@ -89,10 +90,10 @@ public class QuestionsDao extends ConnectionDao {
 		} finally {
 			try {
 				if (rs != null) {
-						rs.close();
+					rs.close();
 				}
 				if (st != null) {
-						st.close();
+					st.close();
 				}
 				close();
 			} catch (Exception e) {
@@ -129,16 +130,38 @@ public class QuestionsDao extends ConnectionDao {
 			try {
 				// リソースの開放
 				if (rs != null) {
-									rs.close();
-								}
+					rs.close();
+				}
 				if (st != null) {
-									st.close();
-								}
+					st.close();
+				}
 				close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new Exception("リソースの開放に失敗しました");
 			}
+		}
+	}
+
+	//CorrectAnswersを新規登録するためにQuestionIdをセットする
+	public int getMaxQuestionId() throws Exception {
+		if (con == null) {
+      setConnection();
+		}
+  	PreparedStatement st = null;
+  	ResultSet rs = null;
+		try {
+			String sql = "SELECT MAX(id) FROM questions";
+			st = con.prepareStatement(sql);
+			rs = st.executeQuery();
+			int max_id = 0;
+			if (rs.next()) {
+				max_id = rs.getInt(1);
+			}
+			return max_id;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("レコードの操作に失敗しました。");
 		}
 	}
 }

@@ -13,7 +13,7 @@
 			<li><a href="/">logout</a>
 		</ul>
 	</div>
-	<form action="Register">
+	<form action="RegisterConfirmServlet" method="post">
 		<div class="main">
 			<div class="inputQuestion">
 				<label for="question">問題：</label>
@@ -26,7 +26,7 @@
 			<div class="bottomNav">
 				<ul>
 					<li><a href="list.jsp">戻る</a>
-					<li><a href="registerConfirm.jsp">確認</a>
+					<li><input type="submit" value="確認">
 					<li><a href="/">追加</a>
 				</ul>
 			</div>
