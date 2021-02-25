@@ -2,8 +2,6 @@ package dao;
 
 import java.sql.PreparedStatement; //SQL文を事前に準備しておくことでJDBCを高速化
 import java.sql.ResultSet; //データベースの結果セットを表すデータの表
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,15 +111,10 @@ public class QuestionsDao extends ConnectionDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "INSERT INTO questions (question, created_at, updated_at) values (?,?,?)";
-			// 現在時刻を取得
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
+			String sql = "INSERT INTO questions (question, created_at, updated_at) values (?,current_timestamp(),current_timestamp())";
+
 			st = con.prepareStatement(sql);
 			st.setString(1, qb.getQuestion());
-			st.setString(2, strTimestamp);
-			st.setString(3, strTimestamp);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -2,8 +2,6 @@ package dao;
 
 import java.sql.PreparedStatement; //SQL文を事前に準備しておくことでJDBCを高速化
 import java.sql.ResultSet; //データベースの結果セットを表すデータの表
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,16 +115,10 @@ public class UsersDao extends ConnectionDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "INSERT INTO users (name, password, created_at, updated_at) values (?,?,?,?)";
-			// 現在時刻を取得
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
+			String sql = "INSERT INTO users (name, password, created_at, updated_at) values (?,?,current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
 			st.setString(1, ub.getName());
 			st.setString(2, ub.getPassword());
-			st.setString(3, strTimestamp);
-			st.setString(4, strTimestamp);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -157,16 +149,12 @@ public class UsersDao extends ConnectionDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "UPDATE users SET deleteflag = ?, deleted_at = ? WHERE id = ?";
-			// 現在時刻を取得
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
+			String sql = "UPDATE users SET deleteflag = ?, deleted_at = current_timestamp() WHERE id = ?";
+
 			st = con.prepareStatement(sql);
 			// 削除フラグを立てる
 			st.setInt(1, 1);
-			st.setString(2, strTimestamp);
-			st.setInt(3, id);
+			st.setInt(2, id);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
