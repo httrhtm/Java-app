@@ -45,7 +45,6 @@ if(qlist != null){
 	</p>
 
 		<!-- 編集ボタン -->
-		//aタグで渡す方法もある(href="EditServlet?id=?")
 		<form action="EditServlet" method="post">
 			<input type="hidden" name="questionId" value="<%= qlist.get(i).getId() %>">
 			<input type="submit" value="編集">
