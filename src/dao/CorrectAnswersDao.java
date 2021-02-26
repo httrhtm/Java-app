@@ -57,7 +57,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 		}
 	}
 	/**
-	 * 指定IDのレコードを取得する
+	 * question.id = question_idを取得する
 	 */
 	public CorrectAnswersBean find(int pid) throws Exception {
 		if (con == null) {
@@ -66,7 +66,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, question_id, answer FROM correct_answers WHERE id = ?";
+			String sql = "SELECT id, question_id, answer FROM correct_answers WHERE question_id = ?";
 			/** PreparedStatement オブジェクトの取得**/
 			//PreparedStatement#executeQueryメソッドでSELECT命令を実行
 			st = con.prepareStatement(sql);
@@ -112,7 +112,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 		ResultSet rs = null;
 		try {
 			String sql = "INSERT INTO correct_answers (question_id, answer, created_at, updated_at) values (?,?,current_timestamp(),current_timestamp())";
-			
+
 			st = con.prepareStatement(sql);
 			st.setInt(1, cb.getQuestionId());
 			st.setString(2, cb.getAnswer());
