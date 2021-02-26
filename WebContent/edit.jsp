@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="bean.*,java.util.*"%>
+    pageEncoding="UTF-8" %>
+<%@ page import="bean.*,java.util.*" %>
 <%@ page import="bean.QuestionsBean" %>
+<%@ page import="bean.CorrectAnswersBean" %>
+
 <%
-List<CorrectAnswersBean> calist=(List<CorrectAnswersBean>)request.getAttribute("calist");
 String error = (String)request.getAttribute("error");
 %>
 
@@ -27,26 +29,37 @@ String error = (String)request.getAttribute("error");
 
 QuestionsBean qbean= (QuestionsBean)request.getAttribute("qbean");
 %>
-			<div class="questionNum">
-				<p>問題番号:
-					<input type="text" id="questionNum" name="questionNum" value="<%= qbean.getId() %>">
-				</p>
-			</div>
-			<div class="question">
-				<p>問題:
-					<textarea id="question" name="question">
-						<%= qbean.getQuestion() %>
-					</textarea>
-				</p>
-			</div>
+<div class="questionNum">
+	<p>問題番号:
+		<input type="text" id="questionNum" name="questionNum" value="<%= qbean.getId() %>">
+	</p>
+</div>
+<div class="question">
+	<p>問題:
+		<textarea id="question" name="question"><%= qbean.getQuestion() %></textarea>
+	</p>
+</div>
+<%
+//リストデータをリクエストから取得
 
-			<div class="answer">
-				<p>
-					答え:
-					<input type="text" id="answer" name="answer" value="">
-					<a href="/">削除</a>
-				</p>
-			</div>
+List<CorrectAnswersBean> calist=(List<CorrectAnswersBean>)request.getAttribute("calist");
+for(int j=0;j<calist.size();j++){
+
+	//qlistのidとcalistのidが同じ場合
+	if(qbean.getId() == calist.get(j).getQuestionId()){
+%>
+
+<!-- 回答 -->
+<div class="input-answer">
+	<p> 答え：
+		<!-- 答え -->
+		<input type="text" id="questionNum" name="questionNum" value="<%= calist.get(j).getAnswer() %>"></input>
+	</p>
+</div>
+<%
+	}
+}
+%>
 			<div class="bottomNav">
 				<ul>
 					<li><a href="ListServlet">戻る</a>

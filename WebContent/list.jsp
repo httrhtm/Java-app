@@ -43,7 +43,6 @@ if(qlist != null){
 		<!-- 問題 -->
 		<a><%= qlist.get(i).getQuestion() %></a>
 	</p>
-
 		<!-- 編集ボタン -->
 		<form action="EditServlet" method="post">
 			<input type="hidden" name="questionId" value="<%= qlist.get(i).getId() %>">
@@ -52,6 +51,7 @@ if(qlist != null){
 
 		<!-- 削除ボタン -->
 		<a href="DeleteServlet">削除</a>
+		
 </div>
 
 <!-- 二重ループ -->
