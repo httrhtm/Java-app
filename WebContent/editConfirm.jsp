@@ -16,7 +16,7 @@
 	<form action="UpdateServlet" method="post">
 		<div class="main">
 			<div class="questionNum">
-				<p>問題番号:<input readonly type="text" id="questionNum" name="questionNum" value="<%=request.getAttribute("questionId") %>"></p>
+				<p>問題番号:<input readonly type="text" id="questionId" name="questionId" value="<%=request.getAttribute("questionId") %>"></p>
 			</div>
 			<div class="question">
 				<p>問題:<textarea readonly id="question" name="question"><%=request.getAttribute("question") %></textarea></p>
