@@ -9,22 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.CorrectAnswersBean;
 import bean.QuestionsBean;
-import dao.CorrectAnswersDao;
 import dao.QuestionsDao;
 
 /**
- * Servlet implementation class Register
+ * Servlet implementation class UpdateServlet
  */
-@WebServlet("/RegisterServlet")
-public class RegisterServlet extends HttpServlet {
+@WebServlet("/UpdateServlet")
+public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterServlet() {
+    public UpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,59 +41,40 @@ public class RegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		//formで入力された値をDBに保存する
-
 		//formの値を日本語にする
 		request.setCharacterEncoding("UTF-8");
 
-		//登録
 		try {
 			//リクエストパラメーターの取得
 			//変数に保存
+			String question_id = request.getParameter("questionId");
 			String question = request.getParameter("question");
-			String[] answer = request.getParameterValues("answer");
+
+			// intに変換して取得
+			int que_id = Integer.parseInt(question_id);
 
 			//リクエストパラメーターから受け取った値をセッタを使って書き込む
 			QuestionsBean qb = new QuestionsBean();
+			qb.setId(que_id);
 			qb.setQuestion(question);
-
-			//配列で受け取る
-			CorrectAnswersBean cab = new CorrectAnswersBean();
 
 			//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
 			//QuestionsDaoのインスタンスオブジェクトを生成（インスタンス化）
 			QuestionsDao qdao = new QuestionsDao();
-			//AnswersDaoのインスタンスオブジェクトを生成（インスタンス化）
-			CorrectAnswersDao adao = new CorrectAnswersDao();
 
 			//QuestionsDAOをInsert
-			qdao.create(qb);
+			qdao.update(qb);
 
-			//QuestionsDAOから一番大きいidの値を取得
-			int max_id = qdao.getMaxQuestionId();
-
-			//caにquestuons_id をセット
-			cab.setQuestionId(max_id);
-			//繰り返し処理
-			for (int i = 0; i < answer.length; i++) {
-				// 答えの入力値が空じゃない場合はセットしてinsert
-				if (answer[i]!= null) {
-					cab.setAnswer(answer[i]);
-					adao.create(cab);
-				}
-			}
-
-//			//QuestionsDAOで取ってきた情報をlistに入れる
+			//QuestionsDAOで取ってきた情報をlistに入れる
 //			List<QuestionsBean> list = qdao.findAll();
 
-//			if(list != null) {
-//				request.setAttribute("list", list);
+//			request.setAttribute("list", list);
 
-				//画面を/listに遷移する
-				RequestDispatcher rd = request.getRequestDispatcher("ListServlet");
-				rd.forward(request, response);
-//			}
-				//例外をキャッチ
+			//list.jspで更新後のデータを表示
+			RequestDispatcher rd = request.getRequestDispatcher("ListServlet");
+			rd.forward(request, response);
+
+		//例外をキャッチ
 		} catch (Exception e) {
 		// TODO 自動生成された catch ブロック
 		e.printStackTrace();

@@ -172,12 +172,20 @@ public class QuestionsDao extends ConnectionDao {
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
+
+		//編集する値のidを変数に代入
+		int questionId = qb.getId();
+		//edit.jspで入力した値を変数に代入
+		String question = qb.getQuestion();
+
 		try {
-			String sql = "UPDATE questions SET question = ?, updated_at = current_timestamp() WHERE id = ?";
+			String sql = "UPDATE questions SET"
+					+ "question = ?"  // 1
+					+ "WHERE id = ?"; // 2
 
 			st = con.prepareStatement(sql);
-			st.setInt(1, qb.getId());
-			st.setString(2, qb.getQuestion());
+			st.setString(1, question);
+			st.setInt(2, questionId);
 			st.executeUpdate();
 
 		} catch (Exception e) {
