@@ -139,7 +139,9 @@ public class QuestionsDao extends ConnectionDao {
 		}
 	}
 
-	//CorrectAnswersを新規登録するためにQuestionIdをセットする
+	/**
+	 * CorrectAnswersを新規登録するためにQuestionIdをセットする
+	 */
 	public int getMaxQuestionId() throws Exception {
 		if (con == null) {
       setConnection();
@@ -158,6 +160,43 @@ public class QuestionsDao extends ConnectionDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("レコードの操作に失敗しました。");
+		}
+	}
+
+	/**
+	 * 指定IDのレコードをupdate
+	 */
+	public void update(QuestionsBean qb) throws Exception {
+		if (con == null) {
+			setConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			String sql = "UPDATE questions SET question = ?, updated_at = urrent_timestamp()";
+
+			st = con.prepareStatement(sql);
+			st.setInt(1, qb.getId());
+			st.setString(2, qb.getQuestion());
+			st.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("レコードの操作に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("リソースの開放に失敗しました");
+			}
 		}
 	}
 }
