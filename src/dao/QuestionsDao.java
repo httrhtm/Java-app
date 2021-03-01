@@ -173,7 +173,7 @@ public class QuestionsDao extends ConnectionDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "UPDATE questions SET question = ?, updated_at = urrent_timestamp()";
+			String sql = "UPDATE questions SET question = ?, updated_at = current_timestamp() WHERE id = ?";
 
 			st = con.prepareStatement(sql);
 			st.setInt(1, qb.getId());
