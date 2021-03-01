@@ -16,17 +16,21 @@
 	<form action="UpdateServlet" method="post">
 		<div class="main">
 			<div class="questionNum">
-				<p>問題番号:<input readonly type="text" id="questionNum" name="questionNum" value=""></p>
+				<p>問題番号:<input readonly type="text" id="questionNum" name="questionNum" value="<%=request.getAttribute("questionId") %>"></p>
 			</div>
 			<div class="question">
-				<p>問題:<textarea readonly id="question" name="question"></textarea></p>
+				<p>問題:<textarea readonly id="question" name="question"><%=request.getAttribute("question") %></textarea></p>
 			</div>
+			<% String[] answer = (String[])request.getAttribute("answer");
+			for(int i = 0; i < answer.length; i++) {
+			%>
 			<div class="answer">
 				<p>
 					答え:
-					<input readonly type="text" id="answer" name="answer" value="">
+					<input readonly type="text" id="answer" name="answer" value="<%=answer[i]%>">
 				</p>
 			</div>
+			<% } %>
 			<div class="bottomNav">
 				<ul>
 					<li><a href="editConfirmServlet">戻る</a>

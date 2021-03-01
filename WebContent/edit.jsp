@@ -31,7 +31,7 @@ QuestionsBean qbean= (QuestionsBean)request.getAttribute("qbean");
 %>
 <div class="questionNum">
 	<p>問題番号:
-		<input type="text" id="questionNum" name="questionNum" value="<%= qbean.getId() %>">
+		<input type="text" id="questionId" name="questionId" value="<%= qbean.getId() %>">
 	</p>
 </div>
 <div class="question">
@@ -53,7 +53,7 @@ for(int j=0;j<calist.size();j++){
 <div class="input-answer">
 	<p> 答え：
 		<!-- 答え -->
-		<input type="text" id="questionNum" name="questionNum" value="<%= calist.get(j).getAnswer() %>"></input>
+		<input type="text" id="answer" name="answer" value="<%= calist.get(j).getAnswer() %>"></input>
 	</p>
 </div>
 <%
