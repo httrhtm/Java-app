@@ -50,8 +50,12 @@ if(qlist != null){
 		</form>
 
 		<!-- 削除ボタン -->
-		<a href="DeleteServlet">削除</a>
-		
+		<form action="DeleteConfirmServlet" method="post">
+			<input type="hidden" name="questionId" value="<%= qlist.get(i).getId() %>">
+			<input type="submit" value="削除">
+		</form>
+
+
 </div>
 
 <!-- 二重ループ -->

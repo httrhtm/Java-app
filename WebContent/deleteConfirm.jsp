@@ -1,39 +1,58 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="bean.*,java.util.*" %>
+<%@ page import="bean.QuestionsBean" %>
+<%@ page import="bean.CorrectAnswersBean" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>delete</title>
 </head>
 <body>
-<div class="confirm">
-  <ul class="list-top">
-    <li><a href="/">top</a></li>
-    <li><a href="/">logout</a></li>
-  </ul>
-  <div class="contents">
-    <div class="content">
-      <div class="question">
-        <label>問題:</label>
-        <div>text</div>
-      </div>
-      <div class="answer">
-        <label for="answer">答え:</label>
-        <div class="answer">
-          <div>text</div>
-          <div>text</div>
-          <div>text</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="confirm-nav">
-    <ul>
-      <li><a href="/">戻る</a></li>
-      <li><a href="/">削除</a></li>
-    </ul>
-  </div>
-</div>
+<div class ="nav">
+		<ul>
+			<li><a href="top.jsp">top</a>
+			<li><a href="/">logout</a>
+		</ul>
+	</div>
+	<form action="DeleteServlet" method="post">
+		<div class="main">
+<%
+//questionは1つだけ取るからforでたくさん取る必要なし
+//リストデータをリクエストから取得
+
+QuestionsBean qbean= (QuestionsBean)request.getAttribute("qbean");
+%>
+			<div class="question">
+				<p>問題:<textarea readonly id="question" name="question"><%= qbean.getQuestion() %></textarea></p>
+			</div>
+<%
+//リストデータをリクエストから取得
+
+List<CorrectAnswersBean> calist=(List<CorrectAnswersBean>)request.getAttribute("calist");
+for(int j=0;j<calist.size();j++){
+
+	//qlistのidとcalistのidが同じ場合
+	if(qbean.getId() == calist.get(j).getQuestionId()){
+%>
+			<div class="answer">
+				<p>
+					答え:
+					<input readonly type="text" id="answer" name="answer" value="<%= calist.get(j).getAnswer() %>">
+				</p>
+			</div>
+<%
+	}
+}
+%>
+			<div class="bottomNav">
+				<ul>
+					<li><a href="editConfirmServlet">戻る</a>
+					<li><input type="submit" value="削除">
+				</ul>
+			</div>
+		</div>
+	</form>
 </body>
 </html>
