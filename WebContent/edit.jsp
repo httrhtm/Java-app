@@ -53,6 +53,7 @@ for(int j=0;j<calist.size();j++){
 <div class="input-answer">
 	<p> 答え：
 		<!-- 答え -->
+		<input type="hidden" name="answerId"value="<%=calist.get(j).getId() %>"></input>
 		<input type="text" id="answer" name="answer" value="<%= calist.get(j).getAnswer() %>"></input>
 	</p>
 </div>

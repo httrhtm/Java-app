@@ -51,6 +51,7 @@ public class UpdateServlet extends HttpServlet {
 			//変数に保存
 			String question_id = request.getParameter("questionId");
 			String question = request.getParameter("question");
+			String[] str_answer_id = request.getParameterValues("answer_id");
 			String[] answer = request.getParameterValues("answer");
 
 			// intに変換して取得
@@ -72,10 +73,15 @@ public class UpdateServlet extends HttpServlet {
 			//QuestionsDAOをupdate
 			qdao.update(qb);
 
-
+			int[] answer_ids = new int[str_answer_id.length];
+			
+			//配列の長さ分繰り返してupdate
 			for (int i = 0; i < answer.length; i++) {
-				// 答えの入力値が空じゃない場合はセットしてupdate
+				//数値型に変換
+				answer_ids[i] =  Integer.parseInt(str_answer_id[i]);
 				if (answer[i]!= null) {
+//					idを配列で取得する
+					cab.setId(answer_ids[i]);
 					cab.setAnswer(answer[i]);
 					cadao.update(cab);
 				}

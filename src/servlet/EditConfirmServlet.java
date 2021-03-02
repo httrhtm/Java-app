@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/EditConfirmServlet")
 public class EditConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -41,6 +41,7 @@ public class EditConfirmServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String question_id = request.getParameter("questionId");
 		String question = request.getParameter("question");
+		String[] answer_id = request.getParameterValues("answerId");
 		String[] answer = request.getParameterValues("answer");
 
 		if(isEmpty(question) || answer.length == 0){
@@ -57,6 +58,7 @@ public class EditConfirmServlet extends HttpServlet {
 			//入力値をsetAttribute()で登録
 			request.setAttribute("questionId", question_id);
 			request.setAttribute("question", question);
+			request.setAttribute("answer_id", answer_id);
 			request.setAttribute("answer", answer);
 
 			RequestDispatcher rd = request.getRequestDispatcher("editConfirm.jsp");

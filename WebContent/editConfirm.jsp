@@ -21,12 +21,14 @@
 			<div class="question">
 				<p>問題:<textarea readonly id="question" name="question"><%=request.getAttribute("question") %></textarea></p>
 			</div>
-			<% String[] answer = (String[])request.getAttribute("answer");
-			for(int i = 0; i < answer.length; i++) {
+			<%	String[] answer_ids = (String[])request.getAttribute("answer_id");
+				String[] answer = (String[])request.getAttribute("answer");
+				for(int i = 0; i < answer.length; i++) {
 			%>
 			<div class="answer">
 				<p>
 					答え:
+					<input type="hidden" name="answer_id" value="<%= answer_ids[i] %>">
 					<input readonly type="text" id="answer" name="answer" value="<%=answer[i]%>">
 				</p>
 			</div>
