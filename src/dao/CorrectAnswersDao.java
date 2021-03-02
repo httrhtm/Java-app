@@ -136,7 +136,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 			}
 		}
 	}
-	
+
 	/**
 	 * 指定IDのレコードをupdate
 	 */
@@ -153,7 +153,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 		String answer = cab.getAnswer();
 
 		try {
-			String sql = "UPDATE correct_answers SET answer = ? WHERE id = ?";
+			String sql = "UPDATE correct_answers SET answer = ?, updated_at = current_timestamp() WHERE id = ?";
 
 			st = con.prepareStatement(sql);
 			st.setString(1, answer);
