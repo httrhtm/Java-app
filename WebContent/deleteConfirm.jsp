@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>delete</title>
+<title>deleteConfirm</title>
 </head>
 <body>
 <div class ="nav">
@@ -25,7 +25,10 @@
 QuestionsBean qbean= (QuestionsBean)request.getAttribute("qbean");
 %>
 			<div class="question">
-				<p>問題:<textarea readonly id="question" name="question"><%= qbean.getQuestion() %></textarea></p>
+				<p>問題:
+				<input type="hidden" id="questionId" name="questionId" value="<%= qbean.getId() %>">
+				<textarea readonly id="question" name="question"><%= qbean.getQuestion() %></textarea>
+				</p>
 			</div>
 <%
 //リストデータをリクエストから取得
@@ -39,6 +42,7 @@ for(int j=0;j<calist.size();j++){
 			<div class="answer">
 				<p>
 					答え:
+					<input type="hidden" id="answerId" name="answerId" value="<%= qbean.getId() %>">
 					<input readonly type="text" id="answer" name="answer" value="<%= calist.get(j).getAnswer() %>">
 				</p>
 			</div>
@@ -48,7 +52,7 @@ for(int j=0;j<calist.size();j++){
 %>
 			<div class="bottomNav">
 				<ul>
-					<li><a href="editConfirmServlet">戻る</a>
+					<li>戻る
 					<li><input type="submit" value="削除">
 				</ul>
 			</div>
