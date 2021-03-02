@@ -76,6 +76,7 @@ public class RegisterServlet extends HttpServlet {
 
 			//caにquestuons_id をセット
 			cab.setQuestionId(max_id);
+			
 			//繰り返し処理
 			for (int i = 0; i < answer.length; i++) {
 				// 答えの入力値が空じゃない場合はセットしてinsert
@@ -84,12 +85,6 @@ public class RegisterServlet extends HttpServlet {
 					adao.create(cab);
 				}
 			}
-
-//			//QuestionsDAOで取ってきた情報をlistに入れる
-//			List<QuestionsBean> list = qdao.findAll();
-
-//			if(list != null) {
-//				request.setAttribute("list", list);
 
 				//画面を/listに遷移する
 				RequestDispatcher rd = request.getRequestDispatcher("ListServlet");

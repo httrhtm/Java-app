@@ -56,6 +56,9 @@ public class ListServlet extends HttpServlet {
 			//検索結果を持ってlist.jspにフォワード
 			request.setAttribute("qlist", qlist);
 			request.setAttribute("calist", calist);
+			
+			//finallyでも書いてる → エラー「レスポンスをコミットした後でフォワード出来ません」
+//			RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
 
 		}catch(SQLException e) {
             error ="DB接続エラーの為、一覧表示はできませんでした。";

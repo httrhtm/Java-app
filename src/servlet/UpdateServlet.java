@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.CorrectAnswersBean;
 import bean.QuestionsBean;
+import dao.CorrectAnswersDao;
 import dao.QuestionsDao;
 
 /**
@@ -49,6 +51,7 @@ public class UpdateServlet extends HttpServlet {
 			//変数に保存
 			String question_id = request.getParameter("questionId");
 			String question = request.getParameter("question");
+			String[] answer = request.getParameterValues("answer");
 
 			// intに変換して取得
 			int que_id = Integer.parseInt(question_id);
@@ -58,17 +61,25 @@ public class UpdateServlet extends HttpServlet {
 			qb.setId(que_id);
 			qb.setQuestion(question);
 
+			//配列で受け取る
+			CorrectAnswersBean cab = new CorrectAnswersBean();
+
 			//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
 			//QuestionsDaoのインスタンスオブジェクトを生成（インスタンス化）
 			QuestionsDao qdao = new QuestionsDao();
+			CorrectAnswersDao cadao = new CorrectAnswersDao();
 
-			//QuestionsDAOをInsert
+			//QuestionsDAOをupdate
 			qdao.update(qb);
 
-			//QuestionsDAOで取ってきた情報をlistに入れる
-//			List<QuestionsBean> list = qdao.findAll();
 
-//			request.setAttribute("list", list);
+			for (int i = 0; i < answer.length; i++) {
+				// 答えの入力値が空じゃない場合はセットしてupdate
+				if (answer[i]!= null) {
+					cab.setAnswer(answer[i]);
+					cadao.update(cab);
+				}
+			}
 
 			//list.jspで更新後のデータを表示
 			RequestDispatcher rd = request.getRequestDispatcher("ListServlet");

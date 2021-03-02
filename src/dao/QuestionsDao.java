@@ -140,7 +140,7 @@ public class QuestionsDao extends ConnectionDao {
 	}
 
 	/**
-	 * CorrectAnswersを新規登録するためにQuestionIdをセットする
+	 * 一番大きいIdを取得する
 	 */
 	public int getMaxQuestionId() throws Exception {
 		if (con == null) {
@@ -179,9 +179,7 @@ public class QuestionsDao extends ConnectionDao {
 		String question = qb.getQuestion();
 
 		try {
-			String sql = "UPDATE questions SET"
-					+ "question = ?"  // 1
-					+ "WHERE id = ?"; // 2
+			String sql = "UPDATE questions SET question = ?, updated_at = current_timestamp() WHERE id = ?";
 
 			st = con.prepareStatement(sql);
 			st.setString(1, question);
