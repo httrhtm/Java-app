@@ -57,7 +57,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 		}
 	}
 	/**
-	 * 指定IDのレコードを取得する
+	 * question.id = question_idを取得する
 	 */
 	public CorrectAnswersBean find(int pid) throws Exception {
 		if (con == null) {
@@ -66,7 +66,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, question_id, answer FROM correct_answers WHERE id = ?";
+			String sql = "SELECT id, question_id, answer FROM correct_answers WHERE question_id = ?";
 			/** PreparedStatement オブジェクトの取得**/
 			//PreparedStatement#executeQueryメソッドでSELECT命令を実行
 			st = con.prepareStatement(sql);
@@ -112,7 +112,7 @@ public class CorrectAnswersDao extends ConnectionDao {
 		ResultSet rs = null;
 		try {
 			String sql = "INSERT INTO correct_answers (question_id, answer, created_at, updated_at) values (?,?,current_timestamp(),current_timestamp())";
-			
+
 			st = con.prepareStatement(sql);
 			st.setInt(1, cb.getQuestionId());
 			st.setString(2, cb.getAnswer());
@@ -136,5 +136,47 @@ public class CorrectAnswersDao extends ConnectionDao {
 			}
 		}
 	}
-}
 
+	/**
+	 * 指定IDのレコードをupdate
+	 */
+	public void update(CorrectAnswersBean cab) throws Exception {
+		if (con == null) {
+			setConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		//編集する値のidを変数に代入
+		int answerId = cab.getId();
+		//edit.jspで入力した値を変数に代入
+		String answer = cab.getAnswer();
+
+		try {
+			String sql = "UPDATE correct_answers SET answer = ?, updated_at = current_timestamp() WHERE id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setString(1, answer);
+			st.setInt(2, answerId);
+			st.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("レコードの操作に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("リソースの開放に失敗しました");
+			}
+		}
+	}
+}

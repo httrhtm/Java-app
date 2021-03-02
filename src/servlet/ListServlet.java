@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,9 +38,9 @@ public class ListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String error = "";
-		
+
 		try {
-			
+
 			//配列宣言
 			List<QuestionsBean> qlist = new ArrayList<QuestionsBean>();
 			List<CorrectAnswersBean> calist = new ArrayList<CorrectAnswersBean>();
@@ -51,12 +52,13 @@ public class ListServlet extends HttpServlet {
 			//findAllで全メソッドを呼び出し
 			qlist = qdao.findAll();
 			calist = adao.findAll();
-			
+
 			//検索結果を持ってlist.jspにフォワード
 			request.setAttribute("qlist", qlist);
 			request.setAttribute("calist", calist);
 			
-			request.getRequestDispatcher("list.jsp").forward(request,response);
+			//finallyでも書いてる → エラー「レスポンスをコミットした後でフォワード出来ません」
+//			RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
 
 		}catch(SQLException e) {
             error ="DB接続エラーの為、一覧表示はできませんでした。";
@@ -64,9 +66,9 @@ public class ListServlet extends HttpServlet {
             error ="予期せぬエラーが発生しました。<br>"+e;
         }finally{
         	request.setAttribute("error", error);
-        	request.getRequestDispatcher("list.jsp").forward(request,response);
+        	RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
+			rd.forward(request, response);
 	    }
-
 	}
 
 	/**

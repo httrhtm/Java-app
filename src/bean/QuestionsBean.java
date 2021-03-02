@@ -39,15 +39,15 @@ public class QuestionsBean implements Serializable {
 		return created_at;
 	}
 
-	public void setCreated_at(Timestamp created_at) {
+	public void setCreatedAt(Timestamp created_at) {
 		this.created_at = created_at;
 	}
 
-	public Timestamp getUpdated_at() {
+	public Timestamp getUpdatedAt() {
 		return updated_at;
 	}
 
-	public void setUpdated_at(Timestamp updated_at) {
+	public void setUpdatedAt(Timestamp updated_at) {
 		this.updated_at = updated_at;
 	}
 
