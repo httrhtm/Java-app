@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="bean.*,java.util.*"%>
+    pageEncoding="UTF-8"%>
+<%@ page import="bean.*,java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,9 +17,10 @@
 	</ul>
 </div>
 <!-- ランダムで表示 -->
+<!-- 問題 -->
 <%
 //リストデータをリクエストから取得
-List<QuestionsBean> qlist=(List<QuestionsBean>)request.getAttribute("qlist");
+List<QuestionsBean> qlist = (List<QuestionsBean>)request.getAttribute("qlist");
 
 //questionのデータが空でない場合
 if(qlist != null){
@@ -26,15 +28,13 @@ if(qlist != null){
 	//qestionのデータの数分、繰り返し処理
 	for(int i=0;i<qlist.size();i++){
 %>
-<form action="TestResultServlet">
-<!-- 問題 -->
 <div class="inputQuestion">
-	<p> 問題：
+	<p>a
 		<!-- 問題番号 -->
-		<a><%= qlist.get(i).getId() %></a>
-
+		<input readonly type="text" name="questionId" value="<%= qlist.get(i).getId() %>">
+	</p>
+	<p>a
 		<!-- 問題 -->
-		<label for="question">問題：</label>
 		<textarea readonly name="question"><%= qlist.get(i).getQuestion() %></textarea>
 	</p>
 </div>
@@ -44,9 +44,9 @@ if(qlist != null){
 %>
 
 <!-- 回答 -->
-
+<form action="TestResultServlet">
 <div class="input-answer">
-<p> 答え：
+<p> 回答：
 	<!-- 答え -->
 		<input type="text" name="answer" id="answer">
 </p>
