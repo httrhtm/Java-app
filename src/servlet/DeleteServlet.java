@@ -62,7 +62,7 @@ public class DeleteServlet extends HttpServlet {
 			QuestionsDao qdao = new QuestionsDao();
 			CorrectAnswersDao cadao = new CorrectAnswersDao();
 		
-			//QuestionsDAOをupdate
+			//QuestionsDAOをdelete
 			qdao.delete(qb); //delete
 
 			int[] answer_ids = new int[str_answer_id.length];
