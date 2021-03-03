@@ -50,8 +50,12 @@ if(qlist != null){
 		</form>
 
 		<!-- 削除ボタン -->
-		<a href="DeleteServlet">削除</a>
-		
+		<form action="DeleteConfirmServlet" method="post">
+			<input type="hidden" name="questionId" value="<%= qlist.get(i).getId() %>">
+			<input type="submit" value="削除">
+		</form>
+
+
 </div>
 
 <!-- 二重ループ -->
@@ -62,7 +66,7 @@ List<CorrectAnswersBean> calist=(List<CorrectAnswersBean>)request.getAttribute("
 //qestionのデータの数分、で繰り返し処理
 for(int j=0;j<calist.size();j++){
 
-	//qlistのidとcalistのidが同じ場合
+	//qlistのidとcalistのquestion_idが同じ場合
 	if(qlist.get(i).getId() == calist.get(j).getQuestionId()){
 %>
 

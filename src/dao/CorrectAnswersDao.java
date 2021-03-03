@@ -179,4 +179,45 @@ public class CorrectAnswersDao extends ConnectionDao {
 			}
 		}
 	}
+	
+	/**
+	 * 指定IDのレコードをdelete
+	 */
+	public void delete(CorrectAnswersBean qb) throws Exception {
+		if (con == null) {
+			setConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		//編集する値のidを変数に代入
+		int questionId = qb.getQuestionId();
+
+		try {
+			//指定idのデータを削除する
+			String sql = "DELETE FROM correct_answers WHERE question_id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setInt(1, questionId);
+			st.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("レコードの操作に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("リソースの開放に失敗しました");
+			}
+		}
+	}
 }
