@@ -61,7 +61,7 @@ public class DeleteServlet extends HttpServlet {
 			//QuestionsDaoのインスタンスオブジェクトを生成（インスタンス化）
 			QuestionsDao qdao = new QuestionsDao();
 			CorrectAnswersDao cadao = new CorrectAnswersDao();
-		
+
 			//QuestionsDAOをdelete
 			qdao.delete(qb); //delete
 
@@ -73,9 +73,9 @@ public class DeleteServlet extends HttpServlet {
 				//数値型に変換
 				answer_ids[i] =  Integer.parseInt(str_answer_id[i]);
 				questions_id[i] =  Integer.parseInt(str_questions_id[i]);
-				
+
 				//question.idとcorrect_answers.question_idが同じ場合にdeleteする
-				if (answer_ids[i] == questions_id[i]) {
+				if (question_id == questions_id[i]) {
 					//idを配列で取得する
 					cab.setId(answer_ids[i]);
 					cab.setQuestionId(questions_id[i]);
