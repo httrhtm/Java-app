@@ -42,7 +42,8 @@ for(int j=0;j<calist.size();j++){
 			<div class="answer">
 				<p>
 					答え:
-					<input type="hidden" id="answerId" name="answerId" value="<%= qbean.getId() %>">
+					<input type="hidden" id="answerId" name="answerId" value="<%= calist.get(j).getId() %>">
+					<input type="hidden" id="questionsId" name="questionsId" value="<%= calist.get(j).getQuestionId() %>">
 					<input readonly type="text" id="answer" name="answer" value="<%= calist.get(j).getAnswer() %>">
 				</p>
 			</div>

@@ -66,7 +66,7 @@ List<CorrectAnswersBean> calist=(List<CorrectAnswersBean>)request.getAttribute("
 //qestionのデータの数分、で繰り返し処理
 for(int j=0;j<calist.size();j++){
 
-	//qlistのidとcalistのidが同じ場合
+	//qlistのidとcalistのquestion_idが同じ場合
 	if(qlist.get(i).getId() == calist.get(j).getQuestionId()){
 %>
 

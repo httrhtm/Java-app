@@ -191,14 +191,14 @@ public class CorrectAnswersDao extends ConnectionDao {
 		ResultSet rs = null;
 
 		//編集する値のidを変数に代入
-		int answerId = qb.getId();
+		int questionId = qb.getQuestionId();
 
 		try {
 			//指定idのデータを削除する
-			String sql = "DELETE FROM correct_answers WHERE id = ?";
+			String sql = "DELETE FROM correct_answers WHERE question_id = ?";
 
 			st = con.prepareStatement(sql);
-			st.setInt(1, answerId);
+			st.setInt(1, questionId);
 			st.executeUpdate();
 
 		} catch (Exception e) {

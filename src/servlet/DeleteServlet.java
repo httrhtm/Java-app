@@ -40,17 +40,18 @@ public class DeleteServlet extends HttpServlet {
 		try {
 			//リクエストパラメーターの取得
 			//変数に保存
-			String question_id = request.getParameter("questionId");
+			String str_question_id = request.getParameter("questionId");
 			String question = request.getParameter("question");
 			String[] str_answer_id = request.getParameterValues("answerId");
+			String[] str_questions_id = request.getParameterValues("questionsId");
 			String[] answer = request.getParameterValues("answer");
 
 			// intに変換して取得
-			int que_id = Integer.parseInt(question_id);
+			int question_id = Integer.parseInt(str_question_id);
 
 			//リクエストパラメーターから受け取った値をセッタを使って書き込む
 			QuestionsBean qb = new QuestionsBean();
-			qb.setId(que_id);
+			qb.setId(question_id);
 			qb.setQuestion(question);
 
 			//配列で受け取る
@@ -60,20 +61,24 @@ public class DeleteServlet extends HttpServlet {
 			//QuestionsDaoのインスタンスオブジェクトを生成（インスタンス化）
 			QuestionsDao qdao = new QuestionsDao();
 			CorrectAnswersDao cadao = new CorrectAnswersDao();
-
+		
 			//QuestionsDAOをupdate
 			qdao.delete(qb); //delete
 
 			int[] answer_ids = new int[str_answer_id.length];
+			int[] questions_id = new int[str_questions_id.length];
 
-			//配列の長さ分繰り返してupdate
+			//配列の長さ分繰り返してdelete
 			for (int i = 0; i < answer.length; i++) {
 				//数値型に変換
 				answer_ids[i] =  Integer.parseInt(str_answer_id[i]);
-				if (answer[i]!= null) {
+				questions_id[i] =  Integer.parseInt(str_questions_id[i]);
+				
+				//question.idとcorrect_answers.question_idが同じ場合にdeleteする
+				if (answer_ids[i] == questions_id[i]) {
 					//idを配列で取得する
 					cab.setId(answer_ids[i]);
-					cab.setAnswer(answer[i]);
+					cab.setQuestionId(questions_id[i]);
 					cadao.delete(cab); //delete
 				}
 			}

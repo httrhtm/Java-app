@@ -39,8 +39,8 @@ public class DeleteConfirmServlet extends HttpServlet {
 		String error = "";
 		request.setCharacterEncoding("UTF-8");
 
-//questionは1つだけ使うからListを使う必要がない＝beanから直接持ってくる
-//answerは問題に対して答えが複数あるから配列で取る
+	//questionは1つだけ使うからListを使う必要がない＝beanから直接持ってくる
+	//answerは問題に対して答えが複数あるから配列で取る
 
 		//パラメータの取得
 		String question_id = request.getParameter("questionId");
