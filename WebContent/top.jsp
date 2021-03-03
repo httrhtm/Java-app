@@ -7,17 +7,24 @@
 <title>top</title>
 </head>
 <body>
-<form action="top" method="post">
-	<div class ="nav">
-		<a href="/">logout</a>
-	</div>
-	<div class="main">
-		<ul>
-			<li><a href="ListServlet">問題と答えを確認・登録する　＞</a>
-			<li><a href="test.jsp">テストをする　＞</a>
-			<li><a href="history.jsp">過去の採点結果をみる　＞</a>
-		</ul>
-	</div>
-</form>
+<div class ="nav">
+	<a href="/">logout</a>
+</div>
+<div class="main">
+
+	<!-- get -->
+	<ul>
+		<li><a href="ListServlet">問題と答えを確認・登録する　＞</a>
+	</ul>
+
+	<!-- post -->
+	<form action="TestServlet" method="post">
+		<input type="submit" value="テストをする ＞" >
+	</form>
+
+	<ul>
+		<li><a href="history.jsp">過去の採点結果をみる　＞</a>
+	</ul>
+</div>
 </body>
 </html>

@@ -47,19 +47,22 @@ public class TestServlet extends HttpServlet {
 			QuestionsDao qdao = new QuestionsDao();
 
 			//findAllで全メソッドを呼び出し
-			qlist = qdao.findAll();
+			qlist = qdao.RandAll();
 
 			//検索結果を持ってlist.jspにフォワード
 			request.setAttribute("qlist", qlist);
 
+			RequestDispatcher rd = request.getRequestDispatcher("test.jsp");
+			rd.forward(request, response);
+
 		}catch(SQLException e) {
             error ="DB接続エラーの為、一覧表示はできませんでした。";
+            RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+            rd.forward(request, response);
         }catch(Exception e){
             error ="予期せぬエラーが発生しました。<br>"+e;
-        }finally{
-        	request.setAttribute("error", error);
-        	RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
-			rd.forward(request, response);
+            RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+            rd.forward(request, response);
 	    }
 	}
 

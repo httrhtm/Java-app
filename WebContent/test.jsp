@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="bean.*,java.util.*" %>
+<%@ page import="bean.QuestionsBean" %>
+<%@ page import="java.util.ArrayList" import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,39 +19,40 @@
 </div>
 <!-- ランダムで表示 -->
 <!-- 問題 -->
+<form action="TestResultServlet">
 <%
 //リストデータをリクエストから取得
 List<QuestionsBean> qlist = (List<QuestionsBean>)request.getAttribute("qlist");
 
-//questionのデータが空でない場合
-if(qlist != null){
+	//questionのデータが空でない場合
+	if(qlist != null){
 
-	//qestionのデータの数分、繰り返し処理
-	for(int i=0;i<qlist.size();i++){
+		//qestionのデータの数分、繰り返し処理
+		for(int i=0;i<qlist.size();i++){
 %>
+
 <div class="inputQuestion">
-	<p>a
+	<p>
 		<!-- 問題番号 -->
 		<input readonly type="text" name="questionId" value="<%= qlist.get(i).getId() %>">
 	</p>
-	<p>a
+	<p>
 		<!-- 問題 -->
 		<textarea readonly name="question"><%= qlist.get(i).getQuestion() %></textarea>
 	</p>
 </div>
-<%
-	}
-}
-%>
 
 <!-- 回答 -->
-<form action="TestResultServlet">
 <div class="input-answer">
 <p> 回答：
 	<!-- 答え -->
 		<input type="text" name="answer" id="answer">
 </p>
 </div>
+<%
+	}
+}
+%>
 <div class="bottomNav">
 	<input type="submit" value="採点">
 </div>
