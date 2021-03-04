@@ -19,7 +19,7 @@
 </div>
 <!-- ランダムで表示 -->
 <!-- 問題 -->
-<form action="TestResultServlet">
+<form action="TestResultServlet" method="post">
 <%
 //リストデータをリクエストから取得
 List<QuestionsBean> qlist = (List<QuestionsBean>)request.getAttribute("qlist");
@@ -29,8 +29,8 @@ List<QuestionsBean> qlist = (List<QuestionsBean>)request.getAttribute("qlist");
 
 		//qestionのデータの数分、繰り返し処理
 		for(int i=0;i<qlist.size();i++){
-%>
 
+%>
 <div class="inputQuestion">
 	<p>
 		<!-- 問題番号 -->
@@ -47,6 +47,7 @@ List<QuestionsBean> qlist = (List<QuestionsBean>)request.getAttribute("qlist");
 <p> 回答：
 	<!-- 答え -->
 		<input type="text" name="answer" id="answer">
+		<input type="hidden" name="answerId" id="answerId">
 </p>
 </div>
 <%

@@ -57,11 +57,11 @@ public class TestServlet extends HttpServlet {
 
 		}catch(SQLException e) {
             error ="DB接続エラーの為、一覧表示はできませんでした。";
-            RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
             rd.forward(request, response);
         }catch(Exception e){
             error ="予期せぬエラーが発生しました。<br>"+e;
-            RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
             rd.forward(request, response);
 	    }
 	}

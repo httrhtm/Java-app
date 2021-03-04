@@ -22,7 +22,7 @@
 <!-- 詳細 -->
 <div class="detail">
 	<!-- ログインユーザー名 -->
-	<p></p>
+	<p><%=request.getAttribute("user_name") %></p>
 
 	<!-- 問題数と正解数 -->
 	<p></p>

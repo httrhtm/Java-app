@@ -71,7 +71,7 @@ public class LoginServlet extends HttpServlet {
 						session.setAttribute("login_name", db_name);
 						session.setAttribute("login_pw", db_pw);
 						//ログイン成功でTop画面へ遷移
-						RequestDispatcher rd = request.getRequestDispatcher("/top.jsp");
+						RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
 						rd.forward(request, response);
 					}
 				}
@@ -79,13 +79,13 @@ public class LoginServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
                 request.setAttribute("error_message", "内部でエラーが発生しました");
-			    RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+			    RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 			    rd.forward(request, response);
 			}
 
 			// DBに一致するものがないので画面戻す
 			request.setAttribute("error_message", "ユーザーIDかパスワードが違います");
-			RequestDispatcher rd = request.getRequestDispatcher("/Login.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 			rd.forward(request, response);
 		}
 	}
