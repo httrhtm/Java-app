@@ -22,7 +22,7 @@
 </div>
 
 <%
-//リストデータをリクエストから取得
+//リストデータを取得 qlistへ代入
 List<QuestionsBean> qlist=(List<QuestionsBean>)request.getAttribute("qlist");
 
 //questionのデータが空でない場合

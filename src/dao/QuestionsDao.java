@@ -61,6 +61,52 @@ public class QuestionsDao extends ConnectionDao {
 		}
 	}
 
+	public List<QuestionsBean> RandAll() throws Exception {
+		if (con == null) {
+			setConnection();
+		}
+		PreparedStatement st = null; //事前に準備したSQL文がない
+		ResultSet rs = null; //データ表がない
+
+		try {
+			//レコードを全件
+			String sql = "SELECT * FROM questions ORDER BY RAND()";
+			/** PreparedStatement オブジェクトの取得**/
+			st = con.prepareStatement(sql);
+			/** SQL 実行 **/
+			rs = st.executeQuery();
+			/** select文の結果をArrayListに格納 **/
+			 //return用オブジェクトの生成
+			ArrayList<QuestionsBean> list = new ArrayList<QuestionsBean>();
+			while (rs.next()) { //繰り返し処理
+				int id = rs.getInt("id");
+				String question = rs.getString("question");
+				QuestionsBean bean = new QuestionsBean(id, question);
+				list.add(bean);
+			}
+			return list;
+			//例外発生時の処理
+		} catch (Exception e) { //例外をキャッチ
+			e.printStackTrace();
+			throw new Exception("レコードの取得に失敗しました");
+		} finally { //ファイルのクローズ処理。例外の有無関係なく実行される。
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				//closeに失敗したときの処理
+				e.printStackTrace();
+				throw new Exception("リソースの開放に失敗しました");
+			}
+		}
+	}
+
+
 	/**
 	 * 指定IDのレコードを取得する
 	 */
@@ -205,7 +251,7 @@ public class QuestionsDao extends ConnectionDao {
 			}
 		}
 	}
-	
+
 	/**
 	 * 指定IDのレコードをdelete
 	 */
