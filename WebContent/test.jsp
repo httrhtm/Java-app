@@ -47,7 +47,6 @@ List<QuestionsBean> qlist = (List<QuestionsBean>)request.getAttribute("qlist");
 <p> 回答：
 	<!-- 答え -->
 		<input type="text" name="answer" id="answer">
-		<input type="hidden" name="answerId" id="answerId">
 </p>
 </div>
 <%

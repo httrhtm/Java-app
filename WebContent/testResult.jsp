@@ -25,15 +25,19 @@
 	<p><%=request.getAttribute("user_name") %></p>
 
 	<!-- 問題数と正解数 -->
-	<p></p>
+	<%
+	//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
+	HttpSession p_session = request.getSession(false);
+	%>
 
+	<p><%=request.getAttribute("total") %>問中<%=request.getAttribute("point") %>問正解です。</p>
 	<!-- 点数 -->
 	<p></p>
 </div>
 
 <!-- 現在時刻 -->
 <div class="current_time">
-	<p></p>
+	<p><%=request.getAttribute("date") %></p>
 </div>
 
 </body>
