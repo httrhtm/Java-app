@@ -75,13 +75,13 @@ public class TestResultServlet extends HttpServlet {
 			CorrectAnswersDao cadao = new CorrectAnswersDao();
 			HistoriesDao hdao = new HistoriesDao();
 //リストの呼び出し
-			List<QuestionsBean> qlist = qdao.findAll();
 			List<CorrectAnswersBean> calist = cadao.findAll();
+			List<QuestionsBean> qlist = qdao.findAll();
+//問題数を取得
+			int q_total = qlist.size();
 //Beanの呼び出し
 			HistoriesBean hb = new HistoriesBean();
 
-//問題数を取得
-			int q_total = qlist.size();
 
 //【処理】
 //pointを定義
@@ -92,14 +92,17 @@ public class TestResultServlet extends HttpServlet {
 				for(int j=0;j<calist.size();j++){
 //【条件】questions.idとcalist.question_idが同じ場合
 //correct_answersのanswerを取得
-					if(question_id == calist.get(j).getQuestionId()){
-						calist.get(j).getAnswer();
+					if(question_id != calist.get(j).getQuestionId()){
+						continue;
 					}
 //【入力値】繰り返し処理
-					for(int k=0;k<str_answer[k].length();k++) {
+					for(int k=0;k<str_answer.length; k++) {
 //【条件】correct_answers.answerと入力値が同じ場合（stringだからequalsメソッド）
 						if(calist.get(j).getAnswer().equals(str_answer[k])) {
 							point++;
+							break;
+						}else {
+							System.out.println("指定されたインデックスの値が不正です。index = " + j);
 						}
 					} //for(問題)
 				} //for(答え)
@@ -107,7 +110,9 @@ public class TestResultServlet extends HttpServlet {
 /**
  * 点数を表示するための処理
  */
-
+			int score = 0;
+			score = Math.round((point* 100) / q_total);
+			System.out.println(score);
 /**
  * 現在時刻を取得するための処理
  */
@@ -124,7 +129,7 @@ public class TestResultServlet extends HttpServlet {
 //正解数
 			request.setAttribute("point", point);
 //点数
-
+			request.setAttribute("score", score);
 //現在時刻
 			request.setAttribute("date", date);
 /**

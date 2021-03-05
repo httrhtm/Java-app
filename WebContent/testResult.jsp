@@ -32,7 +32,7 @@
 
 	<p><%=request.getAttribute("total") %>問中<%=request.getAttribute("point") %>問正解です。</p>
 	<!-- 点数 -->
-	<p></p>
+	<p><%=request.getAttribute("score") %></p>
 </div>
 
 <!-- 現在時刻 -->
