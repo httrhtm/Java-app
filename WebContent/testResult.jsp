@@ -22,7 +22,7 @@
 <!-- 詳細 -->
 <div class="detail">
 	<!-- ログインユーザー名 -->
-	<p><%=request.getAttribute("user_name") %></p>
+	<p><%=request.getAttribute("user_name") %>さん</p>
 
 	<!-- 問題数と正解数 -->
 	<%
@@ -32,7 +32,7 @@
 
 	<p><%=request.getAttribute("total") %>問中<%=request.getAttribute("point") %>問正解です。</p>
 	<!-- 点数 -->
-	<p><%=request.getAttribute("score") %></p>
+	<p><%=request.getAttribute("score") %>点でした。</p>
 </div>
 
 <!-- 現在時刻 -->
