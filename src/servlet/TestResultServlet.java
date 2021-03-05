@@ -112,7 +112,6 @@ public class TestResultServlet extends HttpServlet {
  */
 			int score = 0;
 			score = Math.round((point* 100) / q_total);
-			System.out.println(score);
 /**
  * 現在時刻を取得するための処理
  */
@@ -139,7 +138,7 @@ public class TestResultServlet extends HttpServlet {
 			int user_id = (Integer)session.getAttribute("login_id");
 //beanにセット
 			hb.setUserId(user_id);
-			hb.setPoint(point);
+			hb.setPoint(score);
 //createメソッドを呼び出して保存
 			hdao.create(hb);
 /**
