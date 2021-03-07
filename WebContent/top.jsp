@@ -21,10 +21,10 @@
 	<form action="TestServlet" method="post">
 		<input type="submit" value="テストをする ＞" >
 	</form>
-
-	<ul>
-		<li><a href="history.jsp">過去の採点結果をみる　＞</a>
-	</ul>
+	<!-- post -->
+	<form action="HistoryServlet" method="post">
+		<input type="submit" value="過去の採点結果をみる　＞" >
+	</form>
 </div>
 </body>
 </html>
