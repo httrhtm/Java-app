@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -35,34 +33,25 @@ public class HistoryServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String error = "";
-
+		
 		try {
-			
-			
-			//配列宣言
-			List<HistoriesBean> hlist = new ArrayList<HistoriesBean>();
-
 			//オブジェクト宣言
 			HistoriesDao hdao = new HistoriesDao();
+			//findAll：hlistに全てのデータを格納
+			List<HistoriesBean> hlist = hdao.findAll();
 
-			//findAllで全メソッドを呼び出し
-			hlist = hdao.findAll();
-			
-
-			//検索結果を持ってlist.jspにフォワード
+			//リクエストスコープにhlist属性を追加
 			request.setAttribute("hlist", hlist);
 
-			RequestDispatcher rd = request.getRequestDispatcher("history.jsp");
-			rd.forward(request, response);
-
-		}catch(SQLException e) {
-            error ="DB接続エラーの為、一覧表示はできませんでした。";
-        }catch(Exception e){
-            error ="予期せぬエラーが発生しました。<br>"+e;
-        }finally{
-        	request.setAttribute("error", error);
-	    }
+		} catch(Exception e) {
+			e.printStackTrace();
+            request.setAttribute("error_message", "内部でエラーが発生しました");
+		    RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
+		    rd.forward(request, response);
+		}
+		//history.jspに遷移
+		RequestDispatcher rd = request.getRequestDispatcher("history.jsp");
+		rd.forward(request, response);
 	}
 
 }

@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="bean.HistoriesBean" %>
-<%@ page import="java.util.ArrayList" import="java.util.List"%>
+<%@page import="bean.*,java.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>History</title>
 </head>
 <body>
 <h1>履歴</h1>
@@ -16,34 +15,37 @@
 			<li><a href="/">logout</a>
 		</ul>
 </div>
+
 <div class="table">
-	<table border="1">
+<table border="1">
     <tr>
       <th>名前</th>
       <th>得点</th>
       <th>採点時間</th>
     </tr>
-<!-- 繰り返し -->
 <%
-//リストデータをリクエストから取得
-List<HistoriesBean> hlist = (List<HistoriesBean>)request.getAttribute("hlist");
+//hlistをサーブレットから取得
+List<HistoriesBean> hlist=(List<HistoriesBean>)request.getAttribute("hlist");
+//hlistの長さ分、以下の処理を繰り返す
+for(int k=0;k<hlist.size();k++){
 
-	//questionのデータが空でない場合
-	if(hlist != null){
-
-		//qestionのデータの数分、繰り返し処理
-		for(int i=0;i<hlist.size();i++){
+	//現在ログイン中のidをsessionから取得
+	int user_id = (Integer)session.getAttribute("login_id");
+	//ログイン中のuser_idとhistories.user_idが一致した場合
+	if(user_id == hlist.get(k).getUserId()){
+		//名前を取得
+		String name = (String)session.getAttribute("login_name");
 %>
     <tr>
-      <td><%= hlist.get(i).getUserId() %></td>
-      <td><%= hlist.get(i).getPoint() %></td>
-      <td><%= hlist.get(i).getCreatedAt() %></td>
+      <td><%= name %></td>
+      <td><%= hlist.get(k).getPoint() %></td>
+      <td><%= hlist.get(k).getCreatedAt() %></td>
    </tr>
 <%
 	}
 }
 %>
-  </table>
+ </table>
 </div>
 </body>
 </html>

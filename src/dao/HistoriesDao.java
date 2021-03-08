@@ -62,7 +62,7 @@ public class HistoriesDao extends ConnectionDao {
 
 		try {
 			//レコードを全件
-			String sql = "SELECT id, user_id, point, created_at FROM histories";
+			String sql = "SELECT id, user_id, point, created_at FROM histories order by created_at";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/
