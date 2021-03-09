@@ -7,6 +7,7 @@
 <title>list</title>
 </head>
 <body>
+
 <!-- top, logoutボタン -->
 <div class ="nav">
 	<ul>
@@ -18,6 +19,9 @@
 
 <!-- 新規登録ボタン -->
 <div class="registerBtn">
+	<form action="register.jsp" method="post">
+		<input type="submit" value="新規登録">
+	</form>
 	<a href="register.jsp">新規登録</a>
 </div>
 

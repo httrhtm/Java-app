@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.CorrectAnswersBean;
 import bean.QuestionsBean;
@@ -36,6 +37,23 @@ public class DeleteServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//formの値を日本語にする
 		request.setCharacterEncoding("UTF-8");
+
+		//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
+		HttpSession session = request.getSession(false);
+		//sessionがnullだった場合、login画面へ遷移
+		if (session == null) {
+			session = request.getSession(true);
+			String message = "ログインしてください";
+        	request.setAttribute("message", message);
+        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+		}else {
+            Object loginCheck = session.getAttribute("login_id");
+            if (loginCheck == null){
+            	String message = "ログインしてください";
+            	request.setAttribute("message", message);
+            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				rd.forward(request, response);
+            } else {
 
 		try {
 			//リクエストパラメーターの取得
@@ -91,6 +109,8 @@ public class DeleteServlet extends HttpServlet {
 		} catch (Exception e) {
 		// TODO 自動生成された catch ブロック
 		e.printStackTrace();
+		}
+	}
 		}
 	}
 

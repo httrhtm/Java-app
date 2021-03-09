@@ -41,12 +41,29 @@ public class TestResultServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
+/**
+ * ログインしていないユーザーがアクセスした場合の処理
+ */
+		//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
+		HttpSession session = request.getSession(false);
+		//sessionがnullだった場合、login画面へ遷移
+		if (session == null) {
+			session = request.getSession(true);
+			String message = "ログインしてください";
+        	request.setAttribute("message", message);
+        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+		}else {
+            Object loginCheck = session.getAttribute("login_id");
+            if (loginCheck == null){
+            	String message = "ログインしてください";
+            	request.setAttribute("message", message);
+            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				rd.forward(request, response);
+            } else {
 
 /**
  * ログインユーザー名を表示するための処理
  */
-//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
-		HttpSession session = request.getSession(false);
 //取得できるか判定
 		if (session != null) {
 			try {
@@ -151,6 +168,8 @@ public class TestResultServlet extends HttpServlet {
  */
 		}catch(Exception e) {
 			e.printStackTrace();
+		}
+	}
 		}
 	}
 }

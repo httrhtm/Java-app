@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.CorrectAnswersBean;
 import bean.QuestionsBean;
@@ -38,46 +39,65 @@ public class ListServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String error_msg = null;
 
-		try {
+		//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
+		HttpSession session = request.getSession(false);
+		//sessionがnullだった場合、login画面へ遷移
+		if (session == null) {
+			session = request.getSession(true);
+			String message = "ログインしてください";
+        	request.setAttribute("message", message);
+        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+        	rd.forward(request, response);
 
-			//配列宣言
-			List<QuestionsBean> qlist = new ArrayList<QuestionsBean>();
-			List<CorrectAnswersBean> calist = new ArrayList<CorrectAnswersBean>();
-
-			//オブジェクト宣言
-			QuestionsDao qdao = new QuestionsDao();
-			CorrectAnswersDao adao = new CorrectAnswersDao();
-
-			//findAllで全メソッドを呼び出し
-			qlist = qdao.findAll();
-			calist = adao.findAll();
-
-			//qlistがなかった場合、新規登録画面へ遷移
-			if(qlist.size() == 0) {
-				RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+		}else {
+            Object loginCheck = session.getAttribute("login_id");
+            if (loginCheck == null){
+            	String message = "ログインしてください";
+            	request.setAttribute("message", message);
+            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 				rd.forward(request, response);
-			} else {
-				//検索結果を持ってlist.jspにフォワード
-				request.setAttribute("qlist", qlist);
-				request.setAttribute("calist", calist);
+            } else {
+				try {
+					//配列宣言
+					List<QuestionsBean> qlist = new ArrayList<QuestionsBean>();
+					List<CorrectAnswersBean> calist = new ArrayList<CorrectAnswersBean>();
 
-				RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
-				rd.forward(request, response);
-			}
+					//オブジェクト宣言
+					QuestionsDao qdao = new QuestionsDao();
+					CorrectAnswersDao adao = new CorrectAnswersDao();
 
-		}catch(SQLException e) {
-            error_msg ="DB接続エラーの為、一覧表示はできませんでした。";
-            request.setAttribute("error_msg", error_msg);
-          //login.jspにリダイレクト
-		    RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
-		    rd.forward(request, response);
-        }catch(Exception e){
-            error_msg ="予期せぬエラーが発生しました。<br>"+e;
-            request.setAttribute("error_msg", error_msg);
-          //login.jspにリダイレクト
-		    RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
-		    rd.forward(request, response);
-	    }
+					//findAllで全メソッドを呼び出し
+					qlist = qdao.findAll();
+					calist = adao.findAll();
+
+					//qlistがなかった場合、新規登録画面へ遷移
+					if(qlist.size() == 0) {
+						RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+						rd.forward(request, response);
+					} else {
+						//検索結果を持ってlist.jspにフォワード
+						request.setAttribute("qlist", qlist);
+						request.setAttribute("calist", calist);
+
+						RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
+						rd.forward(request, response);
+					}
+
+				}catch(SQLException e) {
+		            error_msg ="DB接続エラーの為、一覧表示はできませんでした。";
+		            request.setAttribute("error_msg", error_msg);
+		          //login.jspにリダイレクト
+				    RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
+				    rd.forward(request, response);
+		        }catch(Exception e){
+		            error_msg ="予期せぬエラーが発生しました。<br>"+e;
+		            request.setAttribute("error_msg", error_msg);
+		          //login.jspにリダイレクト
+				    RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
+				    rd.forward(request, response);
+			    }
+            }
+		}
 	}
 
 }

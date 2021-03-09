@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.QuestionsBean;
 import dao.QuestionsDao;
@@ -37,33 +38,50 @@ public class TestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String error = "";
 
-		//test.jspに全てのquestionを送る
+		//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
+		HttpSession session = request.getSession(false);
+		//sessionがnullだった場合、login画面へ遷移
+		if (session == null) {
+			session = request.getSession(true);
+			String message = "ログインしてください";
+        	request.setAttribute("message", message);
+        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+		}else {
+            Object loginCheck = session.getAttribute("login_id");
+            if (loginCheck == null){
+            	String message = "ログインしてください";
+            	request.setAttribute("message", message);
+            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				rd.forward(request, response);
+            } else {
 
-		try {
-			//配列宣言
-			List<QuestionsBean> qlist = new ArrayList<QuestionsBean>();
+				try {
+					//配列宣言
+					List<QuestionsBean> qlist = new ArrayList<QuestionsBean>();
 
-			//オブジェクト宣言
-			QuestionsDao qdao = new QuestionsDao();
+					//オブジェクト宣言
+					QuestionsDao qdao = new QuestionsDao();
 
-			//findAllで全メソッドを呼び出し
-			qlist = qdao.RandAll();
+					//findAllで全メソッドを呼び出し
+					qlist = qdao.RandAll();
 
-			//検索結果を持ってlist.jspにフォワード
-			request.setAttribute("qlist", qlist);
+					//検索結果を持ってlist.jspにフォワード
+					request.setAttribute("qlist", qlist);
 
-			RequestDispatcher rd = request.getRequestDispatcher("test.jsp");
-			rd.forward(request, response);
+					RequestDispatcher rd = request.getRequestDispatcher("test.jsp");
+					rd.forward(request, response);
 
-		}catch(SQLException e) {
-            error ="DB接続エラーの為、一覧表示はできませんでした。";
-            RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
-            rd.forward(request, response);
-        }catch(Exception e){
-            error ="予期せぬエラーが発生しました。<br>"+e;
-            RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
-            rd.forward(request, response);
-	    }
+				}catch(SQLException e) {
+			        error ="DB接続エラーの為、一覧表示はできませんでした。";
+			        RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
+			        rd.forward(request, response);
+			    }catch(Exception e){
+			        error ="予期せぬエラーが発生しました。<br>"+e;
+			        RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
+			        rd.forward(request, response);
+			    }
+            }
+		}
 	}
 
 }

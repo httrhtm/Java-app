@@ -7,7 +7,7 @@
 <title>login</title>
 </head>
 <body>
-		<!-- "message"がnullでない場合、ログアウトメッセージを表示する -->
+		<!-- "message"がnullでない場合、メッセージを表示する -->
 		<%
 		if(request.getAttribute("message") != null) {
 		%>

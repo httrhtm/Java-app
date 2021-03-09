@@ -30,10 +30,25 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
+		HttpSession session = request.getSession(false);
+		//sessionがnullだった場合、login画面へ遷移
+		if (session == null) {
+			session = request.getSession(true);
+			String message = "ログインしてください";
+        	request.setAttribute("message", message);
+        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+		}else {
+            Object loginCheck = session.getAttribute("login_id");
+            if (loginCheck == null){
+            	String message = "ログインしてください";
+            	request.setAttribute("message", message);
+            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				rd.forward(request, response);
+            } else {
 		String message = "ログアウトしました";
 
 		try {
-			HttpSession session = request.getSession(true);
 		    session.invalidate();
 
 		    request.setAttribute("message", message);
@@ -54,6 +69,8 @@ public class LogoutServlet extends HttpServlet {
 		    rd.forward(request, response);
 		}
 
+            }
+		}
 	}
 
 }

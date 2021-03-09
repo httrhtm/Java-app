@@ -5,11 +5,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.CorrectAnswersBean;
 import bean.QuestionsBean;
@@ -41,45 +43,58 @@ public class DeleteConfirmServlet extends HttpServlet {
 
 	//questionは1つだけ使うからListを使う必要がない＝beanから直接持ってくる
 	//answerは問題に対して答えが複数あるから配列で取る
+		//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
+		HttpSession session = request.getSession(false);
+		//sessionがnullだった場合、login画面へ遷移
+		if (session == null) {
+			session = request.getSession(true);
+			String message = "ログインしてください";
+        	request.setAttribute("message", message);
+        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+		}else {
+            Object loginCheck = session.getAttribute("login_id");
+            if (loginCheck == null){
+            	String message = "ログインしてください";
+            	request.setAttribute("message", message);
+            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				rd.forward(request, response);
+            } else {
+				//パラメータの取得
+				String question_id = request.getParameter("questionId");
+				try {
+					List<CorrectAnswersBean> calist = new ArrayList<CorrectAnswersBean>();
+					//インスタンスを生成（変数でクラスにアクセス）
+					QuestionsDao qdao = new QuestionsDao();
+					CorrectAnswersDao adao = new CorrectAnswersDao();
+					QuestionsBean qbean = new QuestionsBean();
 
-		//パラメータの取得
-		String question_id = request.getParameter("questionId");
+					// intに変換して取得
+					int que_id = Integer.parseInt(question_id);
 
-		try {
+					//メソッドを呼び出し
+					qbean = qdao.find(que_id); //findの引数はint
+					calist = adao.findAll();
 
-			List<CorrectAnswersBean> calist = new ArrayList<CorrectAnswersBean>();
+					// DBに一致するものがあるかどうか判定
+					if (question_id != null) {
 
-			//インスタンスを生成（変数でクラスにアクセス）
-			QuestionsDao qdao = new QuestionsDao();
-			CorrectAnswersDao adao = new CorrectAnswersDao();
-			QuestionsBean qbean = new QuestionsBean();
+						//あったらリクエストスコープに登録
+						request.setAttribute("qbean", qbean);
+						request.setAttribute("calist", calist);
 
-			// intに変換して取得
-			int que_id = Integer.parseInt(question_id);
+						request.getRequestDispatcher("deleteConfirm.jsp").forward(request,response);
+					}
+				}catch(SQLException e) {
+		            error ="DB接続エラーの為、一覧表示はできませんでした。";
+		        }catch(Exception e){
+		            error ="予期せぬエラーが発生しました。<br>"+e;
+		        }finally{
+		        	request.setAttribute("error", error);
+		        	request.getRequestDispatcher("list.jsp").forward(request,response);
+			    }
 
-			//メソッドを呼び出し
-			qbean = qdao.find(que_id); //findの引数はint
-			calist = adao.findAll();
-
-			// DBに一致するものがあるかどうか判定
-			if (question_id != null) {
-
-				//あったらリクエストスコープに登録
-				request.setAttribute("qbean", qbean);
-				request.setAttribute("calist", calist);
-
-				request.getRequestDispatcher("deleteConfirm.jsp").forward(request,response);
-			}
-		}catch(SQLException e) {
-            error ="DB接続エラーの為、一覧表示はできませんでした。";
-        }catch(Exception e){
-            error ="予期せぬエラーが発生しました。<br>"+e;
-        }finally{
-        	request.setAttribute("error", error);
-        	request.getRequestDispatcher("list.jsp").forward(request,response);
-	    }
-
-		doGet(request, response);
+            }
+		}
 	}
 
 }

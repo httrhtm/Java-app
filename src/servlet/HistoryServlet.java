@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.HistoriesBean;
 import dao.HistoriesDao;
@@ -32,26 +33,43 @@ public class HistoryServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		try {
-			//オブジェクト宣言
-			HistoriesDao hdao = new HistoriesDao();
-			//findAll：hlistに全てのデータを格納
-			List<HistoriesBean> hlist = hdao.findAll();
+		//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
+		HttpSession session = request.getSession(false);
+		//sessionがnullだった場合、login画面へ遷移
+		if (session == null) {
+			session = request.getSession(true);
+			String message = "ログインしてください";
+        	request.setAttribute("message", message);
+        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+		}else {
+            Object loginCheck = session.getAttribute("login_id");
+            if (loginCheck == null){
+            	String message = "ログインしてください";
+            	request.setAttribute("message", message);
+            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				rd.forward(request, response);
+            } else {
+				try {
+					//オブジェクト宣言
+					HistoriesDao hdao = new HistoriesDao();
+					//findAll：hlistに全てのデータを格納
+					List<HistoriesBean> hlist = hdao.findAll();
 
-			//リクエストスコープにhlist属性を追加
-			request.setAttribute("hlist", hlist);
+					//リクエストスコープにhlist属性を追加
+					request.setAttribute("hlist", hlist);
 
-		} catch(Exception e) {
-			e.printStackTrace();
-            request.setAttribute("error_message", "内部でエラーが発生しました");
-		    RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
-		    rd.forward(request, response);
+					//history.jspに遷移
+					RequestDispatcher rd = request.getRequestDispatcher("history.jsp");
+					rd.forward(request, response);
+
+				} catch(Exception e) {
+					e.printStackTrace();
+		            request.setAttribute("error_message", "内部でエラーが発生しました");
+				    RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
+				    rd.forward(request, response);
+				}
+            }
 		}
-		//history.jspに遷移
-		RequestDispatcher rd = request.getRequestDispatcher("history.jsp");
-		rd.forward(request, response);
 	}
 
 }

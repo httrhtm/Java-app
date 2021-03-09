@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class EditConfirmServlet
@@ -36,34 +37,51 @@ public class EditConfirmServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//edit.jspの入力値をeditConfirm.jspで表示
-		request.setCharacterEncoding("UTF-8");
-		String question_id = request.getParameter("questionId");
-		String question = request.getParameter("question");
-		String[] answer_id = request.getParameterValues("answerId");
-		String[] answer = request.getParameterValues("answer");
-
-		if(isEmpty(question) || answer.length == 0){
-			//入力値が空だったら戻す
-			request.setAttribute("error_message", "問題と回答を入力してください");
-			RequestDispatcher rd = request.getRequestDispatcher("edit.jsp");
-			rd.forward(request, response);
-		}else if(question.length() > 255) {
-			request.setAttribute("error_message", "文字数が多いです");
-			RequestDispatcher rd = request.getRequestDispatcher("edit.jsp");
-
-			rd.forward(request, response);
+		//HttpServletRequest.getSession()メソッドを呼び出しHttpSessionを取得
+		HttpSession session = request.getSession(false);
+		//sessionがnullだった場合、login画面へ遷移
+		if (session == null) {
+			session = request.getSession(true);
+			String message = "ログインしてください";
+        	request.setAttribute("message", message);
+        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 		}else {
-			//入力値をsetAttribute()で登録
-			request.setAttribute("questionId", question_id);
-			request.setAttribute("question", question);
-			request.setAttribute("answer_id", answer_id);
-			request.setAttribute("answer", answer);
+            Object loginCheck = session.getAttribute("login_id");
+            if (loginCheck == null){
+            	String message = "ログインしてください";
+            	request.setAttribute("message", message);
+            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				rd.forward(request, response);
+            } else {
+				//edit.jspの入力値をeditConfirm.jspで表示
+				request.setCharacterEncoding("UTF-8");
+				String question_id = request.getParameter("questionId");
+				String question = request.getParameter("question");
+				String[] answer_id = request.getParameterValues("answerId");
+				String[] answer = request.getParameterValues("answer");
 
-			RequestDispatcher rd = request.getRequestDispatcher("editConfirm.jsp");
+				if(isEmpty(question) || answer.length == 0){
+					//入力値が空だったら戻す
+					request.setAttribute("error_message", "問題と回答を入力してください");
+					RequestDispatcher rd = request.getRequestDispatcher("edit.jsp");
+					rd.forward(request, response);
+				}else if(question.length() > 255) {
+					request.setAttribute("error_message", "文字数が多いです");
+					RequestDispatcher rd = request.getRequestDispatcher("edit.jsp");
 
-			rd.forward(request,response);
+					rd.forward(request, response);
+				}else {
+					//入力値をsetAttribute()で登録
+					request.setAttribute("questionId", question_id);
+					request.setAttribute("question", question);
+					request.setAttribute("answer_id", answer_id);
+					request.setAttribute("answer", answer);
+
+					RequestDispatcher rd = request.getRequestDispatcher("editConfirm.jsp");
+
+					rd.forward(request,response);
+				}
+            }
 		}
 	}
 

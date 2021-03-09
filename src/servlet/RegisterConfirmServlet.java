@@ -37,9 +37,7 @@ public class RegisterConfirmServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-		//register.jspの入力値をregisterConfirm.jspで表示
+				//register.jspの入力値をregisterConfirm.jspで表示
 		request.setCharacterEncoding("UTF-8");
 		String question = request.getParameter("question");
 		String[] answer = request.getParameterValues("answer");
@@ -63,7 +61,7 @@ public class RegisterConfirmServlet extends HttpServlet {
 
 			rd.forward(request,response);
 		}
-	}
+            }
 
 	private boolean isEmpty(String question) {
 		// TODO 自動生成されたメソッド・スタブ
