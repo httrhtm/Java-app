@@ -32,12 +32,11 @@ public class ListServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    /**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String error = "";
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String error_msg = null;
 
 		try {
 
@@ -53,31 +52,32 @@ public class ListServlet extends HttpServlet {
 			qlist = qdao.findAll();
 			calist = adao.findAll();
 
-			//検索結果を持ってlist.jspにフォワード
-			request.setAttribute("qlist", qlist);
-			request.setAttribute("calist", calist);
-			
-			//finallyでも書いてる → エラー「レスポンスをコミットした後でフォワード出来ません」
-//			RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
+			//qlistがなかった場合、新規登録画面へ遷移
+			if(qlist.size() == 0) {
+				RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+				rd.forward(request, response);
+			} else {
+				//検索結果を持ってlist.jspにフォワード
+				request.setAttribute("qlist", qlist);
+				request.setAttribute("calist", calist);
+
+				RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
+				rd.forward(request, response);
+			}
 
 		}catch(SQLException e) {
-            error ="DB接続エラーの為、一覧表示はできませんでした。";
+            error_msg ="DB接続エラーの為、一覧表示はできませんでした。";
+            request.setAttribute("error_msg", error_msg);
+          //login.jspにリダイレクト
+		    RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
+		    rd.forward(request, response);
         }catch(Exception e){
-            error ="予期せぬエラーが発生しました。<br>"+e;
-        }finally{
-        	request.setAttribute("error", error);
-        	RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
-			rd.forward(request, response);
+            error_msg ="予期せぬエラーが発生しました。<br>"+e;
+            request.setAttribute("error_msg", error_msg);
+          //login.jspにリダイレクト
+		    RequestDispatcher rd = request.getRequestDispatcher("top.jsp");
+		    rd.forward(request, response);
 	    }
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-		doGet(request, response);
 	}
 
 }
