@@ -7,6 +7,14 @@
 <title>login</title>
 </head>
 <body>
+		<!-- "message"がnullでない場合、ログアウトメッセージを表示する -->
+		<%
+		if(request.getAttribute("message") != null) {
+		%>
+			<p><%= request.getAttribute("message") %></p>
+		<%
+		}
+		%>
 	<form action="Login" method="post">
 		ID：<input type="text" name="id"><br>
 		pw：<input type="password" name="password"><br>
