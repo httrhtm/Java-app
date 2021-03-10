@@ -22,13 +22,13 @@ import dao.QuestionsDao;
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public RegisterServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public RegisterServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -54,65 +54,66 @@ public class RegisterServlet extends HttpServlet {
 		if (session == null) {
 			session = request.getSession(true);
 			String message = "ログインしてください";
-        	request.setAttribute("message", message);
-        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			request.setAttribute("message", message);
+			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			rd.forward(request, response);
 		}else {
-            Object loginCheck = session.getAttribute("login_id");
-            if (loginCheck == null){
-            	String message = "ログインしてください";
-            	request.setAttribute("message", message);
-            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			Object loginCheck = session.getAttribute("login_id");
+			if (loginCheck == null){
+				String message = "ログインしてください";
+				request.setAttribute("message", message);
+				RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 				rd.forward(request, response);
-            } else {
+			} else {
 
-		//登録
-		try {
-			//リクエストパラメーターの取得
-			//変数に保存
-			String question = request.getParameter("question");
-			String[] answer = request.getParameterValues("answer");
+				//登録
+				try {
+					//リクエストパラメーターの取得
+					//変数に保存
+					String question = request.getParameter("question");
+					String[] answer = request.getParameterValues("answer");
 
-			//リクエストパラメーターから受け取った値をセッタを使って書き込む
-			QuestionsBean qb = new QuestionsBean();
-			qb.setQuestion(question);
+					//リクエストパラメーターから受け取った値をセッタを使って書き込む
+					QuestionsBean qb = new QuestionsBean();
+					qb.setQuestion(question);
 
-			//配列で受け取る
-			CorrectAnswersBean cab = new CorrectAnswersBean();
+					//配列で受け取る
+					CorrectAnswersBean cab = new CorrectAnswersBean();
 
-			//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
-			//QuestionsDaoのインスタンスオブジェクトを生成（インスタンス化）
-			QuestionsDao qdao = new QuestionsDao();
-			//AnswersDaoのインスタンスオブジェクトを生成（インスタンス化）
-			CorrectAnswersDao adao = new CorrectAnswersDao();
+					//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
+					//QuestionsDaoのインスタンスオブジェクトを生成（インスタンス化）
+					QuestionsDao qdao = new QuestionsDao();
+					//AnswersDaoのインスタンスオブジェクトを生成（インスタンス化）
+					CorrectAnswersDao adao = new CorrectAnswersDao();
 
-			//QuestionsDAOをInsert
-			qdao.create(qb);
+					//QuestionsDAOをInsert
+					qdao.create(qb);
 
-			//QuestionsDAOから一番大きいidの値を取得
-			int max_id = qdao.getMaxQuestionId();
+					//QuestionsDAOから一番大きいidの値を取得
+					int max_id = qdao.getMaxQuestionId();
 
-			//caにquestuons_id をセット
-			cab.setQuestionId(max_id);
+					//caにquestuons_id をセット
+					cab.setQuestionId(max_id);
 
-			//繰り返し処理
-			for (int i = 0; i < answer.length; i++) {
-				// 答えの入力値が空じゃない場合はセットしてinsert
-				if (answer[i]!= null) {
-					cab.setAnswer(answer[i]);
-					adao.create(cab);
+					//繰り返し処理
+					for (int i = 0; i < answer.length; i++) {
+						// 答えの入力値が空じゃない場合はセットしてinsert
+						if (answer[i]!= null) {
+							cab.setAnswer(answer[i]);
+							adao.create(cab);
+						}
+					}
+
+					//画面を/listに遷移する
+					RequestDispatcher rd = request.getRequestDispatcher("ListServlet");
+					rd.forward(request, response);
+					//			}
+					//例外をキャッチ
+				} catch (Exception e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
 				}
 			}
-
-				//画面を/listに遷移する
-				RequestDispatcher rd = request.getRequestDispatcher("ListServlet");
-				rd.forward(request, response);
-//			}
-				//例外をキャッチ
-		} catch (Exception e) {
-		// TODO 自動生成された catch ブロック
-		e.printStackTrace();
-		}
-	}
 		}
 	}
 
