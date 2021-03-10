@@ -17,20 +17,12 @@ import javax.servlet.http.HttpSession;
 public class EditConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public EditConfirmServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	public EditConfirmServlet() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -43,16 +35,17 @@ public class EditConfirmServlet extends HttpServlet {
 		if (session == null) {
 			session = request.getSession(true);
 			String message = "ログインしてください";
-        	request.setAttribute("message", message);
-        	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			request.setAttribute("message", message);
+			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			rd.forward(request, response);
 		}else {
-            Object loginCheck = session.getAttribute("login_id");
-            if (loginCheck == null){
-            	String message = "ログインしてください";
-            	request.setAttribute("message", message);
-            	RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			Object loginCheck = session.getAttribute("login_id");
+			if (loginCheck == null){
+				String message = "ログインしてください";
+				request.setAttribute("message", message);
+				RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 				rd.forward(request, response);
-            } else {
+			} else {
 				//edit.jspの入力値をeditConfirm.jspで表示
 				request.setCharacterEncoding("UTF-8");
 				String question_id = request.getParameter("questionId");
@@ -60,28 +53,38 @@ public class EditConfirmServlet extends HttpServlet {
 				String[] answer_id = request.getParameterValues("answerId");
 				String[] answer = request.getParameterValues("answer");
 
-				if(isEmpty(question) || answer.length == 0){
+				if(isEmpty(question)){
 					//入力値が空だったら戻す
-					request.setAttribute("error_message", "問題と回答を入力してください");
-					RequestDispatcher rd = request.getRequestDispatcher("edit.jsp");
+					request.setAttribute("error_msg", "問題を入力してください");
+					RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
 					rd.forward(request, response);
-				}else if(question.length() > 255) {
-					request.setAttribute("error_message", "文字数が多いです");
-					RequestDispatcher rd = request.getRequestDispatcher("edit.jsp");
-
-					rd.forward(request, response);
-				}else {
-					//入力値をsetAttribute()で登録
-					request.setAttribute("questionId", question_id);
-					request.setAttribute("question", question);
-					request.setAttribute("answer_id", answer_id);
-					request.setAttribute("answer", answer);
-
-					RequestDispatcher rd = request.getRequestDispatcher("editConfirm.jsp");
-
+				}else if(question.length() > 500) {
+					request.setAttribute("error_msg", "問題の文字数が500文字を超えています");
+					RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
 					rd.forward(request,response);
+
+				}else{
+					//answerの配列の長さ分、ループ処理
+					for(int j=0;j<answer.length;j++){
+						if(answer[j].length() == 0) {
+							request.setAttribute("error_msg", "答えを入力してください");
+							RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+							rd.forward(request, response);
+							//answerが200文字以上だった場合
+						}else if (answer[j].length() > 200) {
+							request.setAttribute("error_msg", "答えの文字数が200文字を超えています");
+							RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+							rd.forward(request,response);
+						}else {
+							//入力値をsetAttribute()で登録
+							request.setAttribute("question", question);
+							request.setAttribute("answer", answer);
+							RequestDispatcher rd = request.getRequestDispatcher("editConfirm.jsp");
+							rd.forward(request,response);
+						}
+					}
 				}
-            }
+			}
 		}
 	}
 
