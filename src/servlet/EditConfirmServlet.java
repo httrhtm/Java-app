@@ -77,7 +77,9 @@ public class EditConfirmServlet extends HttpServlet {
 							rd.forward(request,response);
 						}else {
 							//入力値をsetAttribute()で登録
+							request.setAttribute("question_id", question_id);
 							request.setAttribute("question", question);
+							request.setAttribute("answer_id", answer_id);
 							request.setAttribute("answer", answer);
 							RequestDispatcher rd = request.getRequestDispatcher("editConfirm.jsp");
 							rd.forward(request,response);

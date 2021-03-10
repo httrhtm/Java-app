@@ -19,27 +19,27 @@
 	<form action="UpdateServlet" method="post">
 		<div class="main">
 			<div class="questionNum">
-				<p>問題番号:<input readonly type="text" id="questionId" name="questionId" value="<%=request.getAttribute("questionId") %>"></p>
+				<p>問題番号:<input readonly type="text" id="questionId" name="questionId" value="<%=request.getAttribute("question_id") %>"></p>
 			</div>
 			<div class="question">
 				<p>問題:<textarea readonly id="question" name="question"><%=request.getAttribute("question") %></textarea></p>
 			</div>
 			<%	String[] answer_ids = (String[])request.getAttribute("answer_id");
 				String[] answer = (String[])request.getAttribute("answer");
-				for(int i = 0; i < answer.length; i++) {
+				for(int j= 0; j < answer.length; j++) {
 			%>
 			<div class="answer">
 				<p>
 					答え:
-					<input type="hidden" name="answer_id" value="<%= answer_ids[i] %>">
-					<input readonly type="text" id="answer" name="answer" value="<%=answer[i]%>">
+					<input type="hidden" name="answer_id" value="<%= answer_ids[j] %>">
+					<input readonly type="text" id="answer" name="answer" value="<%=answer[j]%>">
 				</p>
 			</div>
 			<% } %>
 			</div>
 			<input type="submit" value="登録">
 	</form>
-	<form action="edit.jsp" method="post">
+	<form action="ListServlet" method="post">
 		<input type="submit" value="戻る">
 	</form>
 </body>
