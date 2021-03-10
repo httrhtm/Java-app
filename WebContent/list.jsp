@@ -16,7 +16,14 @@
 			<input type="submit" value="logout">
 		</form>
 	</div>
-
+	<!-- "message"がnullでない場合、メッセージを表示する -->
+		<%
+		if(request.getAttribute("message") != null) {
+		%>
+			<p><%= request.getAttribute("message") %></p>
+		<%
+		}
+		%>
 	<!-- 新規登録ボタン -->
 	<div class="registerBtn">
 		<form action="register.jsp" method="post">

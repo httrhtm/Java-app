@@ -100,6 +100,8 @@ public class DeleteServlet extends HttpServlet {
 					cadao.delete(cab); //delete
 				}
 			}
+			String message = "問題を削除しました";
+			request.setAttribute("message", message);
 
 			//list.jspで更新後のデータを表示
 			RequestDispatcher rd = request.getRequestDispatcher("ListServlet");
