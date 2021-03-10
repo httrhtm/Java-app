@@ -39,6 +39,7 @@ public class RegisterConfirmServlet extends HttpServlet {
 			String message = "ログインしてください";
 			request.setAttribute("message", message);
 			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			rd.forward(request, response);
 		}else {
 			Object loginCheck = session.getAttribute("login_id");
 			if (loginCheck == null){
