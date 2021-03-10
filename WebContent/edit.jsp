@@ -68,9 +68,8 @@ String error = (String) request.getAttribute("error");
 			}
 			}
 			%>
-
-
-			<!-- 戻る、確認、追加ボタン -->
+		</div>
+		<!-- 戻る、確認、追加ボタン -->
 			追加
 			<input type="submit" value="確認">
 	</form>

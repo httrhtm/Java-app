@@ -7,11 +7,14 @@
 <title>editConfirm</title>
 </head>
 <body>
-<div class ="nav">
-		<ul>
-			<li><a href="top.jsp">top</a>
-			<li><a href="/">logout</a>
-		</ul>
+<!-- top, logoutボタン -->
+	<div class="nav">
+		<form action="top.jsp" method="post">
+			<input type="submit" value="top">
+		</form>
+		<form action="LogoutServlet" method="post">
+			<input type="submit" value="logout">
+		</form>
 	</div>
 	<form action="UpdateServlet" method="post">
 		<div class="main">
@@ -33,13 +36,11 @@
 				</p>
 			</div>
 			<% } %>
-			<div class="bottomNav">
-				<ul>
-					<li><a href="editConfirmServlet">戻る</a>
-					<li><input type="submit" value="更新">
-				</ul>
 			</div>
-		</div>
+			<input type="submit" value="登録">
+	</form>
+	<form action="edit.jsp" method="post">
+		<input type="submit" value="戻る">
 	</form>
 </body>
 </html>
