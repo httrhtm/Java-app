@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="bean.QuestionsBean"%>
 <%@ page import="java.util.ArrayList" import="java.util.List"%>
+<%@ include file="login_check.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,21 +10,6 @@
 <title>test</title>
 </head>
 <body>
-<%
-if (session == null) {
-	session = request.getSession(true);
-	String message = "ログインしてください";
-	request.setAttribute("message", message);
-	response.sendRedirect("login.jsp");
-}else {
-	Object loginCheck = session.getAttribute("login_id");
-	if (loginCheck == null){
-		String message = "ログインしてください";
-		request.setAttribute("message", message);
-		response.sendRedirect("login.jsp");
-	}
-}
-%>
 	<!-- top, logoutボタン -->
 	<div class="nav">
 		<form action="top.jsp" method="post">
