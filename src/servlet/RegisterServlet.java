@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,17 +32,10 @@ public class RegisterServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
 		//formで入力された値をDBに保存する
@@ -57,9 +51,9 @@ public class RegisterServlet extends HttpServlet {
 			request.setAttribute("message", message);
 			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 			rd.forward(request, response);
-		}else {
+		} else {
 			Object loginCheck = session.getAttribute("login_id");
-			if (loginCheck == null){
+			if (loginCheck == null) {
 				String message = "ログインしてください";
 				request.setAttribute("message", message);
 				RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
@@ -68,53 +62,67 @@ public class RegisterServlet extends HttpServlet {
 
 				//登録
 				try {
-					//リクエストパラメーターの取得
-					//変数に保存
-					String question = request.getParameter("question");
-					String[] answer = request.getParameterValues("answer");
-
-					//リクエストパラメーターから受け取った値をセッタを使って書き込む
-					QuestionsBean qb = new QuestionsBean();
-					qb.setQuestion(question);
-
-					//配列で受け取る
-					CorrectAnswersBean cab = new CorrectAnswersBean();
-
-					//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
-					//QuestionsDaoのインスタンスオブジェクトを生成（インスタンス化）
 					QuestionsDao qdao = new QuestionsDao();
-					//AnswersDaoのインスタンスオブジェクトを生成（インスタンス化）
-					CorrectAnswersDao adao = new CorrectAnswersDao();
 
-					//QuestionsDAOをInsert
-					qdao.create(qb);
+					//セッションの取得
+					String register_check = (String) session.getAttribute("register_check");
+					//register_checkがnullもしくは、register_checkがOKでなかった場合、以下の処理を行う
+					if (register_check == null || !register_check.equals("OK")) {
 
-					//QuestionsDAOから一番大きいidの値を取得
-					int max_id = qdao.getMaxQuestionId();
+						//リクエストパラメーターの取得
+						//変数に保存
+						String question = request.getParameter("question");
+						String[] answer = request.getParameterValues("answer");
 
-					//caにquestuons_id をセット
-					cab.setQuestionId(max_id);
+						//リクエストパラメーターから受け取った値をセッタを使って書き込む
+						QuestionsBean qb = new QuestionsBean();
+						qb.setQuestion(question);
 
-					//繰り返し処理
-					for (int i = 0; i < answer.length; i++) {
-						// 答えの入力値が空じゃない場合はセットしてinsert
-						if (answer[i]!= null) {
-							cab.setAnswer(answer[i]);
-							adao.create(cab);
+						//配列で受け取る
+						CorrectAnswersBean cab = new CorrectAnswersBean();
+
+						//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
+						//QuestionsDaoのインスタンスオブジェクトを生成（インスタンス化）
+
+						//AnswersDaoのインスタンスオブジェクトを生成（インスタンス化）
+						CorrectAnswersDao adao = new CorrectAnswersDao();
+
+						//QuestionsDAOをInsert
+						qdao.create(qb);
+
+						//QuestionsDAOから一番大きいidの値を取得
+						int max_id = qdao.getMaxQuestionId();
+
+						//caにquestuons_id をセット
+						cab.setQuestionId(max_id);
+
+						//繰り返し処理
+						for (int i = 0; i < answer.length; i++) {
+							// 答えの入力値が空じゃない場合はセットしてinsert
+							if (answer[i] != null) {
+								cab.setAnswer(answer[i]);
+								adao.create(cab);
+							}
 						}
+						//登録フラグを設定
+						register_check = "OK";
+						session.setAttribute("register_check", register_check);
 					}
-
-					//画面を/listに遷移する
-					RequestDispatcher rd = request.getRequestDispatcher("ListServlet");
-					rd.forward(request, response);
-					//			}
+					//register_checkのOK/NG問わず行う処理
+					List<QuestionsBean> qlist = qdao.findAll();
+					if (qlist != null) {
+						//必要なデータを一覧画面に渡す
+						RequestDispatcher rd = request.getRequestDispatcher("ListServlet");
+						rd.forward(request, response);
+					}
 					//例外をキャッチ
 				} catch (Exception e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				}
+
+
 			}
 		}
 	}
-
 }
