@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="bean.*,java.util.*"%>
+	pageEncoding="UTF-8" import="bean.*,java.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,82 +7,89 @@
 <title>list</title>
 </head>
 <body>
-<!-- top, logoutボタン -->
-<div class ="nav">
-	<ul>
-		<li><a href="top.jsp">top</a>
-		<li><a href="logout">logout</a>
-		<br>
-	</ul>
-</div>
+	<!-- top, logoutボタン -->
+	<div class="nav">
+		<form action="top.jsp" method="post">
+			<input type="submit" value="top">
+		</form>
+		<form action="LogoutServlet" method="post">
+			<input type="submit" value="logout">
+		</form>
+	</div>
+	<!-- "message"がnullでない場合、メッセージを表示する -->
+		<%
+		if(request.getAttribute("message") != null) {
+		%>
+			<p><%= request.getAttribute("message") %></p>
+		<%
+		}
+		%>
+	<!-- 新規登録ボタン -->
+	<div class="registerBtn">
+		<form action="register.jsp" method="post">
+			<input type="submit" value="新規登録">
+		</form>
+	</div>
 
-<!-- 新規登録ボタン -->
-<div class="registerBtn">
-	<a href="register.jsp">新規登録</a>
-</div>
+	<%
+	//リストデータを取得 qlistへ代入
+	List<QuestionsBean> qlist = (List<QuestionsBean>) request.getAttribute("qlist");
 
-<%
-//リストデータを取得 qlistへ代入
-List<QuestionsBean> qlist=(List<QuestionsBean>)request.getAttribute("qlist");
+	//questionのデータが空でない場合
+	if (qlist != null) {
 
-//questionのデータが空でない場合
-if(qlist != null){
+		//qestionのデータ数分、繰り返し処理
+		for (int i = 0; i < qlist.size(); i++) {
+	%>
 
-	//qestionのデータの数分、繰り返し処理
-	for(int i=0;i<qlist.size();i++){
-
-		//idをsetAttributeでリクエストパラメータに登録?
-%>
-
-<!-- 問題 -->
-<div class="inputQuestion">
-	<p> 問題：
+	<!-- 問題 -->
+	<div class="inputQuestion">
+		問題：
 		<!-- 問題番号 -->
-		<a><%= qlist.get(i).getId() %></a>
+		<a><%=qlist.get(i).getId()%></a>
 
 		<!-- 問題 -->
-		<a><%= qlist.get(i).getQuestion() %></a>
-	</p>
+		<a><%=qlist.get(i).getQuestion()%></a>
 		<!-- 編集ボタン -->
 		<form action="EditServlet" method="post">
-			<input type="hidden" name="questionId" value="<%= qlist.get(i).getId() %>">
-			<input type="submit" value="編集">
+			<input type="hidden" name="questionId"
+				value="<%=qlist.get(i).getId()%>"> <input type="submit"
+				value="編集">
 		</form>
 
 		<!-- 削除ボタン -->
 		<form action="DeleteConfirmServlet" method="post">
-			<input type="hidden" name="questionId" value="<%= qlist.get(i).getId() %>">
-			<input type="submit" value="削除">
+			<input type="hidden" name="questionId"
+				value="<%=qlist.get(i).getId()%>"> <input type="submit"
+				value="削除">
 		</form>
+	</div>
 
+	<%
+	//リストデータをリクエストから取得
+	List<CorrectAnswersBean> calist = (List<CorrectAnswersBean>) request.getAttribute("calist");
 
-</div>
+	//qestionのデータの数分、繰り返し処理
+	for (int j = 0; j < calist.size(); j++) {
 
-<!-- 二重ループ -->
-<%
-//リストデータをリクエストから取得
-List<CorrectAnswersBean> calist=(List<CorrectAnswersBean>)request.getAttribute("calist");
+		//qlistのidとcalistのquestion_idが同じ場合
+		if (qlist.get(i).getId() == calist.get(j).getQuestionId()) {
+	%>
 
-//qestionのデータの数分、で繰り返し処理
-for(int j=0;j<calist.size();j++){
+	<!-- 回答 -->
+	<div class="input-answer">
+		<p>
+			答え：
+			<!-- 答え -->
+			<a><%=calist.get(j).getAnswer()%></a>
+		</p>
+	</div>
 
-	//qlistのidとcalistのquestion_idが同じ場合
-	if(qlist.get(i).getId() == calist.get(j).getQuestionId()){
-%>
-
-<!-- 回答 -->
-<div class="input-answer">
-	<p> 答え：
-		<!-- 答え -->
-		<a><%=calist.get(j).getAnswer() %></a>
-	</p>
-</div>
-
-<%
-}
+	<%
+		}
 	}
-}
+		}
 	}
-%>
+	%>
 </body>
 </html>

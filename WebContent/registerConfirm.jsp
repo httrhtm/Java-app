@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,11 +7,14 @@
 <title>registerComfirm</title>
 </head>
 <body>
-	<div class ="nav">
-		<ul>
-			<li><a href="top.jsp">top</a>
-			<li><a href="/">logout</a>
-		</ul>
+	<!-- top, logoutボタン -->
+	<div class="nav">
+		<form action="top.jsp" method="post">
+			<input type="submit" value="top">
+		</form>
+		<form action="LogoutServlet" method="post">
+			<input type="submit" value="logout">
+		</form>
 	</div>
 	<form action="RegisterServlet" method="post">
 		<div class="main">
@@ -23,17 +26,16 @@
 			for(int i = 0; i < answer.length; i++) {
 			%>
 			<div class="input-answer">
-			<label for="answer">答え：</label>
-			<input type="text" name="answer" readonly value="<%=answer[i]%>">
+				<label for="answer">答え：</label> <input type="text" name="answer"
+					readonly value="<%=answer[i]%>">
 			</div>
 			<% } %>
-			<div class="bottomNav">
-				<ul>
-					<li><a href="register.jsp">戻る</a>
-					<li><input type="submit" value="登録">
-				</ul>
-			</div>
 		</div>
+		<input type="submit" value="登録">
 	</form>
+	<form action="register.jsp" method="post">
+		<input type="submit" value="戻る">
+	</form>
+
 </body>
 </html>

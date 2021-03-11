@@ -7,9 +7,26 @@
 <title>login</title>
 </head>
 <body>
+		<!-- "message"がnullでない場合、メッセージを表示する -->
+		<%
+		if(request.getAttribute("message") != null) {
+		%>
+			<p><%= request.getAttribute("message") %></p>
+		<%
+		}
+		%>
 	<form action="Login" method="post">
-		ID：<input type="text" name="id" required><br>
-		pw：<input type="password" name="password" required><br>
+		ID：<input type="text" name="id"><br>
+		pw：<input type="password" name="password"><br>
+
+		<!-- "error_msg"がnullでない場合、エラーメッセージを表示する -->
+		<%
+		if(request.getAttribute("error_msg") != null) {
+		%>
+			<p><%= request.getAttribute("error_msg") %></p>
+		<%
+		}
+		%>
 		<input type="submit" value="login"><br>
 	</form>
 

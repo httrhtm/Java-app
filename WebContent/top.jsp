@@ -8,22 +8,22 @@
 </head>
 <body>
 <div class ="nav">
-	<a href="/">logout</a>
+	<form action="LogoutServlet" method="post">
+		<input type="submit" value="logout" >
+	</form>
 </div>
 <div class="main">
-
-	<!-- get -->
-	<ul>
-		<li><a href="ListServlet">問題と答えを確認・登録する　＞</a>
-	</ul>
-
+	<!-- post -->
+	<form action="ListServlet" method="post">
+		<input type="submit" value="問題と答えを確認・登録する ＞" >
+	</form>
 	<!-- post -->
 	<form action="TestServlet" method="post">
 		<input type="submit" value="テストをする ＞" >
 	</form>
 	<!-- post -->
 	<form action="HistoryServlet" method="post">
-		<input type="submit" value="過去の採点結果をみる　＞" >
+		<input type="submit" value="過去の採点結果をみる ＞" >
 	</form>
 </div>
 </body>
