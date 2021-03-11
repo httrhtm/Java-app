@@ -48,6 +48,9 @@ public class RegisterConfirmServlet extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 				rd.forward(request, response);
 			} else {
+				//登録セッションの設定
+				session.setAttribute("register_check", "NG");
+
 				String question = request.getParameter("question");
 				String[] answer = request.getParameterValues("answer");
 
