@@ -52,6 +52,7 @@ public class TestResultServlet extends HttpServlet {
 			String message = "ログインしてください";
 			request.setAttribute("message", message);
 			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			rd.forward(request, response);
 		}else {
 			Object loginCheck = session.getAttribute("login_id");
 			if (loginCheck == null){
@@ -81,12 +82,8 @@ public class TestResultServlet extends HttpServlet {
 				 */
 				try {
 					//パラメータ取得
-					//questionsのidを変数に代入
-					String str_question_id = request.getParameter("questionId");
 					//入力値を変数に代入
 					String[] str_answer = request.getParameterValues("answer");
-					//変換
-					int question_id = Integer.parseInt(str_question_id);
 					//宣言（クラスにアクセス）
 					QuestionsDao qdao = new QuestionsDao();
 					CorrectAnswersDao cadao = new CorrectAnswersDao();
@@ -99,17 +96,15 @@ public class TestResultServlet extends HttpServlet {
 					//Beanの呼び出し
 					HistoriesBean hb = new HistoriesBean();
 
-
 					//【処理】
 					//pointを定義
-					int point = 0;
+					double point = 0.0;
 					//【問題】繰り返し処理
 					for(int i=0;i< q_total;i++){
 						//【答え】繰り返し処理
 						for(int j=0;j<calist.size();j++){
-							//【条件】questions.idとcalist.question_idが同じ場合
-							//correct_answersのanswerを取得
-							if(question_id != calist.get(j).getQuestionId()){
+							//【条件】questions.idとcalist.question_idが同じでない場合、以下の処理をスキップ
+							if(qlist.get(i).getId() != calist.get(j).getQuestionId()){
 								continue;
 							}
 							//【入力値】繰り返し処理
@@ -127,8 +122,8 @@ public class TestResultServlet extends HttpServlet {
 					/**
 					 * 点数を表示するための処理
 					 */
-					int score = 0;
-					score = Math.round((point* 100) / q_total);
+					long l_score = 0;
+					l_score = Math.round((point* 100) / q_total);
 					/**
 					 * 現在時刻を取得するための処理
 					 */
@@ -145,7 +140,7 @@ public class TestResultServlet extends HttpServlet {
 					//正解数
 					request.setAttribute("point", point);
 					//点数
-					request.setAttribute("score", score);
+					request.setAttribute("score", l_score);
 					//現在時刻
 					request.setAttribute("date", date);
 					/**
@@ -153,6 +148,8 @@ public class TestResultServlet extends HttpServlet {
 					 */
 					//user_idをセッションで取得
 					int user_id = (Integer)session.getAttribute("login_id");
+					//intに変換
+					int score = (int)l_score;
 					//beanにセット
 					hb.setUserId(user_id);
 					hb.setPoint(score);
