@@ -26,7 +26,7 @@ public class UsersDao extends ConnectionDao {
 		ResultSet rs = null; //データ表がない
 		try {
 			// 削除フラグがたってないレコードを全件
-			String sql = "SELECT id, name, password FROM users WHERE deleteflag = 0";
+			String sql = "SELECT id, name, password, admin_flag FROM users WHERE deleteflag = 0";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/
@@ -37,7 +37,8 @@ public class UsersDao extends ConnectionDao {
 				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				String password = rs.getString("password");
-				UsersBean bean = new UsersBean(id, name, password);
+				byte admin_flag = rs.getByte("admin_flag");
+				UsersBean bean = new UsersBean(id, name, password, admin_flag);
 				list.add(bean);
 			}
 			return list;
@@ -175,4 +176,5 @@ public class UsersDao extends ConnectionDao {
 			}
 		}
 	}
+
 }
