@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="bean.QuestionsBean"%>
 <%@ page import="java.util.ArrayList" import="java.util.List"%>
+<%@ include file="login_check.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>

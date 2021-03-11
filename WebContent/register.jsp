@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="login_check.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +19,12 @@
 	</div>
 	<form action="RegisterConfirmServlet" method="post">
 		<div class="main">
-		<!-- "error_msg"がnullでない場合、エラーメッセージを表示する -->
-		<%
+			<!-- "error_msg"がnullでない場合、エラーメッセージを表示する -->
+			<%
 		if(request.getAttribute("error_msg") != null) {
 		%>
 			<p><%= request.getAttribute("error_msg") %></p>
-		<%
+			<%
 		}
 		%>
 			<div class="inputQuestion">
@@ -35,11 +36,11 @@
 			</div>
 		</div>
 		<!-- 戻る、確認、追加ボタン -->
-		追加
-		<input type="submit" value="確認">
+		追加 <input type="submit" value="確認">
 	</form>
 	<form action="ListServlet" method="post">
 		<input type="submit" value="戻る">
 	</form>
+
 </body>
 </html>

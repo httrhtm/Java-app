@@ -7,6 +7,7 @@
 <title>editConfirm</title>
 </head>
 <body>
+
 <!-- top, logoutボタン -->
 	<div class="nav">
 		<form action="top.jsp" method="post">

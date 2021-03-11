@@ -8,6 +8,7 @@
 <title>History</title>
 </head>
 <body>
+
 	<h1>履歴</h1>
 	<!-- top, logoutボタン -->
 	<div class="nav">
