@@ -14,14 +14,16 @@ public class UsersBean implements Serializable {
 	private Timestamp updated_at;
 	private byte deleteflag;
 	private Timestamp deleted_at;
+	private byte admin_flag;
 
 	/**
 	 * コンストラクタ
 	 */
-	public UsersBean(int id, String name, String password) {
+	public UsersBean(int id, String name, String password, byte admin_flag) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
+		this.admin_flag = admin_flag;
 	}
 	/** 引数無しのコンストラクタ **/
 	public UsersBean() {
@@ -70,4 +72,11 @@ public class UsersBean implements Serializable {
 	public void setDeletedAt(Timestamp deleted_at) {
 		this.deleted_at = deleted_at;
 	}
+	public byte getAdminFlag() {
+		return admin_flag;
+	}
+	public void setAdminFlag(byte admin_flag) {
+		this.admin_flag = admin_flag;
+	}
+
 }

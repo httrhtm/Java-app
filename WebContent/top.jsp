@@ -13,7 +13,14 @@
 	</form>
 </div>
 <div class="main">
-	<!-- post -->
+<%
+//sessionからlogin_idを取得
+Object login_id = session.getAttribute("login_id");
+
+//login_idと一致するusers.idのデータをとってきてlistに格納
+
+%>
+	<!-- post 管理者権限ユーザーのみに表示 -->
 	<form action="ListServlet" method="post">
 		<input type="submit" value="問題と答えを確認・登録する ＞" >
 	</form>
@@ -24,6 +31,10 @@
 	<!-- post -->
 	<form action="HistoryServlet" method="post">
 		<input type="submit" value="過去の採点結果をみる ＞" >
+	</form>
+	<!-- post 管理者権限ユーザーのみに表示 -->
+	<form action="UserListsServlet" method="post">
+		<input type="submit" value="ユーザーを追加・編集する ＞" >
 	</form>
 </div>
 </body>
