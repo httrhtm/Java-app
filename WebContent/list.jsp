@@ -7,6 +7,21 @@
 <title>list</title>
 </head>
 <body>
+<%
+if (session == null) {
+	session = request.getSession(true);
+	String message = "ログインしてください";
+	request.setAttribute("message", message);
+	response.sendRedirect("login.jsp");
+}else {
+	Object loginCheck = session.getAttribute("login_id");
+	if (loginCheck == null){
+		String message = "ログインしてください";
+		request.setAttribute("message", message);
+		response.sendRedirect("login.jsp");
+	}
+}
+%>
 	<!-- top, logoutボタン -->
 	<div class="nav">
 		<form action="top.jsp" method="post">

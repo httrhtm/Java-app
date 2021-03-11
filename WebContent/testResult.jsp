@@ -7,6 +7,21 @@
 <title>testResult</title>
 </head>
 <body>
+<%
+if (session == null) {
+	session = request.getSession(true);
+	String message = "ログインしてください";
+	request.setAttribute("message", message);
+	response.sendRedirect("login.jsp");
+}else {
+	Object loginCheck = session.getAttribute("login_id");
+	if (loginCheck == null){
+		String message = "ログインしてください";
+		request.setAttribute("message", message);
+		response.sendRedirect("login.jsp");
+	}
+}
+%>
 	<!-- タイトル -->
 	<h1>テスト結果</h1>
 	<!-- top, logoutボタン -->

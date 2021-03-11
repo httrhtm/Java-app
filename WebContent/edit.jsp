@@ -7,7 +7,21 @@
 <%
 String error = (String) request.getAttribute("error");
 %>
-
+<%
+if (session == null) {
+	session = request.getSession(true);
+	String message = "ログインしてください";
+	request.setAttribute("message", message);
+	response.sendRedirect("login.jsp");
+}else {
+	Object loginCheck = session.getAttribute("login_id");
+	if (loginCheck == null){
+		String message = "ログインしてください";
+		request.setAttribute("message", message);
+		response.sendRedirect("login.jsp");
+	}
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
