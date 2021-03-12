@@ -57,20 +57,15 @@ public class UserUpdateServlet extends HttpServlet {
     				String str_user_id = request.getParameter("id");
 					String password = request.getParameter("password");
 					String admin = request.getParameter("admin_flag");
-					System.out.println(str_user_id);
-					System.out.println(password);
-					System.out.println(admin);
 
 					//インスタンスの生成
 					UsersDao dao = new UsersDao();
 
 					//String型のidをint型に変換
 					int user_id = Integer.parseInt(str_user_id);
-					System.out.println(user_id);
 
 					//String型のadminをbyte型に変換
 					byte byte_admin = Byte.parseByte(admin);
-					System.out.println(admin);
 
 					//リクエストパラメーターから受け取った値をセッタを使って書き込む
 					UsersBean bean = new UsersBean();
