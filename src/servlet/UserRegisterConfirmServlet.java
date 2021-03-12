@@ -85,18 +85,15 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 					//全てが正しく入力されていた場合、確認画面へ遷移
 				}else{
 					//admin_checkがnullでない場合、adminに"あり"をセットする
+					//admin_checkがnullでない場合、admin_flagに"1"をセットする
 					if(admin_check != null){
 						request.setAttribute("admin", "あり");
+						request.setAttribute("admin_flag", 1);
 					}else{
 						request.setAttribute("admin", "なし");
-					}
-
-					//admin_checkがnullでない場合、admin_flagに"1"をセットする
-					if(admin_check != null) {
-						request.setAttribute("admin_flag", 1);
-					}else {
 						request.setAttribute("admin_flag", "0");
 					}
+
 					//入力値をセット
 					request.setAttribute("name", name);
 					request.setAttribute("password", password);

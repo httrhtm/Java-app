@@ -60,36 +60,36 @@ public class UserEditConfirmServlet extends HttpServlet {
 
     			//【バリデーション】
     			//passwordの入力値が空、もしくは半角英数字でなかった場合、ユーザー登録画面に戻す
-    			if(password ==null || !password.matches("^[A-Za-z0-9]+$")){
-    				request.setAttribute("error_msg", "パスワードを半角英数字で入力してください");
-    				RequestDispatcher rd = request.getRequestDispatcher("userRegister.jsp");
+    			if(password == null || !password.matches("^[A-Za-z0-9]+$")){
+    				request.setAttribute("message", "パスワードを半角英数字で入力してください");
+    				request.setAttribute("user_id", str_user_id);
+    				RequestDispatcher rd = request.getRequestDispatcher("UserEditServlet");
     				rd.forward(request, response);
     				//passwordがpassword_confirmと一致しなかった場合、ユーザー登録画面に戻す
     			}else if(!password.equals(password_confirm)) {
-    				request.setAttribute("error_msg", "PWとPW確認が一致しませんでした");
-    				RequestDispatcher rd = request.getRequestDispatcher("userRegister.jsp");
+    				request.setAttribute("message", "PWとPW確認が一致しませんでした");
+    				request.setAttribute("user_id", str_user_id);
+    				RequestDispatcher rd = request.getRequestDispatcher("UserEditServlet");
     				rd.forward(request, response);
     				//passwordの長さが8文字より短かった場合、ユーザー登録画面に戻す
     			}else if(password.length() < 8) {
-    				request.setAttribute("error_msg", "パスワードを8文字以上で入力してください");
-    				RequestDispatcher rd = request.getRequestDispatcher("userRegister.jsp");
+    				request.setAttribute("message", "パスワードを8文字以上で入力してください");
+    				request.setAttribute("user_id", str_user_id);
+    				RequestDispatcher rd = request.getRequestDispatcher("userEditServlet");
     				rd.forward(request, response);
 
     				//全てが正しく入力されていた場合、確認画面へ遷移
     			}else{
     				//admin_checkがnullでない場合、adminに"あり"をセットする
+    				//admin_checkがnullでない場合、admin_flagに"1"をセットする
     				if(admin_check != null){
     					request.setAttribute("admin", "あり");
+    					request.setAttribute("admin_flag", 1);
     				}else{
     					request.setAttribute("admin", "なし");
-    				}
-
-    				//admin_checkがnullでない場合、admin_flagに"1"をセットする
-    				if(admin_check != null) {
-    					request.setAttribute("admin_flag", 1);
-    				}else {
     					request.setAttribute("admin_flag", 0);
     				}
+
     				//入力値をセット
     				request.setAttribute("id", str_user_id);
     				request.setAttribute("name", name);
