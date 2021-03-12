@@ -42,6 +42,7 @@ public class UserUpdateServlet extends HttpServlet {
     		String message = "ログインしてください";
     		request.setAttribute("message", message);
     		RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+    		rd.forward(request, response);
     	}else {
     		Object loginCheck = session.getAttribute("login_id");
     		if (loginCheck == null){
@@ -87,9 +88,4 @@ public class UserUpdateServlet extends HttpServlet {
     		}
     	}
     }
-
-	private Integer parseInt(String str_user_id) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 }
