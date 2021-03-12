@@ -60,6 +60,21 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 				String password_confirm = request.getParameter("password_confirm");
 				String admin_check = request.getParameter("admin_check");
 
+				//admin_checkがnullでない場合、adminに"あり"をセットする
+				//admin_checkがnullでない場合、admin_flagに"1"をセットする
+				if(admin_check != null){
+					request.setAttribute("admin", "あり");
+					request.setAttribute("admin_flag", 1);
+				}else{
+					request.setAttribute("admin", "なし");
+					request.setAttribute("admin_flag", "0");
+				}
+
+				//入力値をセット
+				request.setAttribute("name", name);
+				request.setAttribute("password", password);
+				request.setAttribute("password_confirm", password_confirm);
+
 				//【バリデーション】
 				//nameの入力値が空、もしくは半角英数字でなかった場合、ユーザー登録画面に戻す
 				if(name == null || !name.matches("^[A-Za-z0-9]+$")){
@@ -84,23 +99,6 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 
 					//全てが正しく入力されていた場合、確認画面へ遷移
 				}else{
-					//admin_checkがnullでない場合、adminに"あり"をセットする
-					if(admin_check != null){
-						request.setAttribute("admin", "あり");
-					}else{
-						request.setAttribute("admin", "なし");
-					}
-
-					//admin_checkがnullでない場合、admin_flagに"1"をセットする
-					if(admin_check != null) {
-						request.setAttribute("admin_flag", 1);
-					}else {
-						request.setAttribute("admin_flag", "0");
-					}
-					//入力値をセット
-					request.setAttribute("name", name);
-					request.setAttribute("password", password);
-					request.setAttribute("password_confirm", password_confirm);
 					//リクエストパラメータを送る
 					RequestDispatcher rd = request.getRequestDispatcher("userRegisterConfirm.jsp");
 					rd.forward(request,response);

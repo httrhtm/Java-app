@@ -42,7 +42,7 @@ public class UsersDao extends ConnectionDao {
 				list.add(bean);
 			}
 			return list;
-		//例外発生時の処理
+			//例外発生時の処理
 		} catch (Exception e) { //例外をキャッチ
 			e.printStackTrace();
 			throw new Exception("レコードの取得に失敗しました");
@@ -72,9 +72,9 @@ public class UsersDao extends ConnectionDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, name, password FROM users WHERE id = ?";
+			String sql = "SELECT id, name, password, admin_flag FROM users WHERE id = ?";
 			/** PreparedStatement オブジェクトの取得**/
-//			PreparedStatement#executeQueryメソッドでSELECT命令を実行
+			//			PreparedStatement#executeQueryメソッドでSELECT命令を実行
 			st = con.prepareStatement(sql);
 			st.setInt(1, pid);
 			rs = st.executeQuery();
@@ -83,9 +83,11 @@ public class UsersDao extends ConnectionDao {
 				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				String password = rs.getString("password");
+				Byte admin_flag =rs.getByte("admin_flag");
 				bean.setId(id);
 				bean.setName(name);
 				bean.setPassword(password);
+				bean.setAdminFlag(admin_flag);
 			}
 			return bean;
 		} catch (Exception e) {
@@ -94,10 +96,10 @@ public class UsersDao extends ConnectionDao {
 		} finally {
 			try {
 				if (rs != null) {
-						rs.close();
+					rs.close();
 				}
 				if (st != null) {
-						st.close();
+					st.close();
 				}
 				close();
 			} catch (Exception e) {
@@ -142,10 +144,10 @@ public class UsersDao extends ConnectionDao {
 			}
 		}
 	}
-	 /**
-	  * レコードの論理削除
-	  */
-	 public void delete(int id) throws Exception{
+	/**
+	 * レコードの論理削除
+	 */
+	public void delete(int id) throws Exception{
 		if (con == null) {
 			setConnection();
 		}
@@ -159,6 +161,50 @@ public class UsersDao extends ConnectionDao {
 			st.setInt(1, 1);
 			st.setInt(2, id);
 			st.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("レコードの操作に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("リソースの開放に失敗しました");
+			}
+		}
+	}
+
+	/**
+	 * 指定IDのレコードをupdate
+	 */
+	public void update(UsersBean bean) throws Exception {
+		if (con == null) {
+			setConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		//入力値を変数に代入
+		int user_id = bean.getId();
+		String password = bean.getPassword();
+		byte admin_flag = bean.getAdminFlag();
+
+		try {
+			String sql = "UPDATE users SET password = ?, admin_flag = ?, updated_at = current_timestamp() WHERE id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setString(1, password);
+			st.setByte(2, admin_flag);
+			st.setInt(3, user_id);
+			st.executeUpdate();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("レコードの操作に失敗しました。");

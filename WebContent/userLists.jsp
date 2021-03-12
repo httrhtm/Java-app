@@ -55,7 +55,7 @@
 
 	<!-- 編集 -->
 	<form action="UserEditServlet" method="post">
-		<input type="hidden" name="userId" value="<%=list.get(i).getId()%>">
+		<input type="hidden" name="user_id" value="<%=list.get(i).getId()%>">
 		<input type="submit" value="編集">
 	</form>
 
