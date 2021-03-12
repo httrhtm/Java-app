@@ -106,6 +106,7 @@ public class UsersDao extends ConnectionDao {
 			}
 		}
 	}
+
 	/**
 	 * レコードの新規作成
 	 */
@@ -116,10 +117,11 @@ public class UsersDao extends ConnectionDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "INSERT INTO users (name, password, created_at, updated_at) values (?,?,current_timestamp(),current_timestamp())";
+			String sql = "INSERT INTO users (name, password, admin_flag, created_at, updated_at) values (?,?,?,current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
 			st.setString(1, ub.getName());
 			st.setString(2, ub.getPassword());
+			st.setByte(3, ub.getAdminFlag());
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -23,7 +23,7 @@
 			<input type="submit" value="新規登録">
 		</form>
 	</div>
-	<p>ID     権限        ユーザー名</p>
+	<p>ID 権限 ユーザー名</p>
 	<%
 	//リストデータを取得 listへ代入
 	List<UsersBean> list = (List<UsersBean>) request.getAttribute("list");
@@ -43,27 +43,28 @@
 			}
 	%>
 	<!-- ユーザ一覧 -->
-		<!-- ID -->
-		<input readonly name="user_id" value="<%=list.get(i).getId()%>">
+	<!-- ID -->
+	<input readonly name="user_id" value="<%=list.get(i).getId()%>">
 
-		<!-- 権限 --><!-- 0：一般 、1：管理者-->
-		<input readonly name="admin" value="<%=admin%>">
+	<!-- 権限 -->
+	<!-- 0：一般 、1：管理者-->
+	<input readonly name="admin" value="<%=admin%>">
 
-		<!-- ユーザー名 -->
-		<input readonly name="user_name" value="<%=list.get(i).getName()%>">
+	<!-- ユーザー名 -->
+	<input readonly name="user_name" value="<%=list.get(i).getName()%>">
 
-		<!-- 編集 -->
-		<form action="UserEditServlet" method="post">
-			<input type="hidden" name="userId"value="<%=list.get(i).getId()%>">
-			<input type="submit"value="編集">
-		</form>
+	<!-- 編集 -->
+	<form action="UserEditServlet" method="post">
+		<input type="hidden" name="userId" value="<%=list.get(i).getId()%>">
+		<input type="submit" value="編集">
+	</form>
 
-		<!-- 削除ボタン -->
-		<form action="UserDeleteConfirmServlet" method="post">
-			<input type="hidden" name="questionId"
-				value="<%=list.get(i).getId()%>"> <input type="submit"
-				value="削除">
-		</form>
+	<!-- 削除ボタン -->
+	<form action="UserDeleteConfirmServlet" method="post">
+		<input type="hidden" name="questionId"
+			value="<%=list.get(i).getId()%>"> <input type="submit"
+			value="削除">
+	</form>
 	<%
 			}
 		}
