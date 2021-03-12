@@ -19,6 +19,10 @@
 	<!-- 編集確認フォーム -->
 	<form action="UserUpdateServlet" method="post">
 		<p>
+			ID：<input readonly type="text" name="id"
+				value="<%=request.getAttribute("id")%>">
+		</p>
+		<p>
 			ユーザー名：<input readonly type="text" name="name"
 				value="<%=request.getAttribute("name")%>">
 		</p>
@@ -32,7 +36,7 @@
 		</p>
 		<p>
 			管理者：<%=request.getAttribute("admin")%></p>
-		<input readonly type="hidden" name="admin_flag"
+		<input type="hidden" name="admin_flag"
 			value="<%=request.getAttribute("admin_flag")%>">
 
 		<!-- 登録 -->

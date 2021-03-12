@@ -63,7 +63,6 @@ public class UserRegisterServlet extends HttpServlet {
 					//ユーザーのセッションの取得
 					String user_check = (String) u_session.getAttribute("user_check");
 
-
 					//セッションがなかった場合、もしくはセッションの値がOKでなかった場合、以下の処理を行う
 					if (user_check == null || !user_check.equals("done")) {
 
@@ -91,7 +90,7 @@ public class UserRegisterServlet extends HttpServlet {
 					//user_checkのOK/NG問わず行う処理
 					List<UsersBean> list = dao.findAll();
 					if (list != null) {
-						//必要なデータを一覧画面に渡す
+						//一覧画面に遷移
 						RequestDispatcher rd = request.getRequestDispatcher("UserListsServlet");
 						rd.forward(request, response);
 					}

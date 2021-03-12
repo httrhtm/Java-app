@@ -52,6 +52,7 @@ public class UserEditConfirmServlet extends HttpServlet {
     		//sessionがnullでなかった場合 = ログインしていた場合
     		} else {
     			//パラメーターの取得
+    			String str_user_id = request.getParameter("id");
     			String name = request.getParameter("name");
     			String password = request.getParameter("password");
     			String password_confirm = request.getParameter("password_confirm");
@@ -90,6 +91,7 @@ public class UserEditConfirmServlet extends HttpServlet {
     					request.setAttribute("admin_flag", 0);
     				}
     				//入力値をセット
+    				request.setAttribute("id", str_user_id);
     				request.setAttribute("name", name);
     				request.setAttribute("password", password);
     				request.setAttribute("password_confirm", password_confirm);
