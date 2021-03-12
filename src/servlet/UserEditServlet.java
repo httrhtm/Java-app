@@ -75,11 +75,11 @@ public class UserEditServlet extends HttpServlet {
     			}catch(SQLException e) {
     				error ="DB接続エラーの為、一覧表示はできませんでした。";
     				request.setAttribute("error", error);
-    				request.getRequestDispatcher("userList.jsp").forward(request,response);
+    				request.getRequestDispatcher("UserListsServlet").forward(request,response);
     			}catch(Exception e){
     				error ="予期せぬエラーが発生しました。<br>"+e;
     				request.setAttribute("error", error);
-    				request.getRequestDispatcher("userList.jsp").forward(request,response);
+    				request.getRequestDispatcher("UserListsServlet").forward(request,response);
     			}
     		}
     	}

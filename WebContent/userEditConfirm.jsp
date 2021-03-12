@@ -7,7 +7,7 @@
 <title>userEditConfirm</title>
 </head>
 <body>
-<!-- top, logoutボタン -->
+	<!-- top, logoutボタン -->
 	<div class="nav">
 		<form action="top.jsp" method="post">
 			<input type="submit" value="top">
@@ -16,6 +16,14 @@
 			<input type="submit" value="logout">
 		</form>
 	</div>
+	<!-- "message"がnullでない場合、メッセージを表示する -->
+	<%
+		if(request.getAttribute("message") != null) {
+		%>
+	<p><%= request.getAttribute("message") %></p>
+	<%
+		}
+		%>
 	<!-- 編集確認フォーム -->
 	<form action="UserUpdateServlet" method="post">
 		<p>
@@ -39,12 +47,19 @@
 		<input type="hidden" name="admin_flag"
 			value="<%=request.getAttribute("admin_flag")%>">
 
+		<%
+		if (request.getAttribute("message") == null) {
+		%>
 		<!-- 登録 -->
 		<input type="submit" value="登録">
+		<%
+		}
+		%>
 	</form>
 	<!-- 戻る -->
-	<form action="userEdit.jsp" method="post">
-		<input type="submit" value="戻る">
+	<form action="UserEditServlet" method="post">
+		<input type="submit" value="戻る"> <input type="hidden"
+			name="user_id" value="<%=request.getAttribute("id")%>">
 	</form>
 
 

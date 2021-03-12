@@ -18,6 +18,7 @@
 			<input type="submit" value="logout">
 		</form>
 	</div>
+	
 	<!-- 編集フォーム (ID,ユーザ名は編集不可) -->
 	<form action="UserEditConfirmServlet" method="post">
 		<%
