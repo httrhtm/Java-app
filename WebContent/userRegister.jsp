@@ -44,7 +44,7 @@
 		<input type="submit" value="確認">
 	</form>
 	<!-- 戻る -->
-	<form action="UserListServlet" method="post">
+	<form action="UserListsServlet" method="post">
 		<input type="submit" value="戻る">
 	</form>
 
