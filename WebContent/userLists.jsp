@@ -61,9 +61,8 @@
 
 	<!-- 削除ボタン -->
 	<form action="UserDeleteConfirmServlet" method="post">
-		<input type="hidden" name="questionId"
-			value="<%=list.get(i).getId()%>"> <input type="submit"
-			value="削除">
+		<input type="hidden" name="user_id" value="<%=list.get(i).getId()%>">
+		<input type="submit" value="削除">
 	</form>
 	<%
 			}
